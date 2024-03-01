@@ -7,14 +7,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CarouselPage from "./components/carousel/carousel";
 import HomePage from "./pages/HomePage";
+import { Suspense } from "react";
+
+const Product = React.lazy(() => import("product_frontend/Brouter"));
 const App = () => (
-  <BrowserRouter>
-    {/* <Header />
-    <CarouselPage /> */}
+  <Suspense fallback={<div>Loading..</div>}>
+    <Header />
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/products/*" element={<Product />} />
     </Routes>
-    {/* <Footer /> */}
-  </BrowserRouter>
+
+    <Footer />
+  </Suspense>
 );
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById("app")
+);

@@ -30,7 +30,7 @@ function CarouselPage() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src="https://kbdfans.com/cdn/shop/files/taco_banner_1024x1024.jpg?v=1688027745"
+            src="https://novelkeys.com/cdn/shop/files/Mandalorian_HERO_1950x.jpg?v=1630525236"
             alt="Third slide"
           />
 

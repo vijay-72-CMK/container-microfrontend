@@ -5,12 +5,10 @@ import Footer from "../components/Footer/Footer";
 
 const HomePage = () => {
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <Header />
+    <div>
       <main className="flex-grow-1">
         <CarouselPage />
       </main>
-      <Footer />
     </div>
   );
 };
