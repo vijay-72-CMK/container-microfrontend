@@ -12,6 +12,7 @@ export const UserContext = createContext({
 const UserProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [loginError, setLoginError] = useState(null);
 
   const login = async (username, password) => {
     try {
@@ -28,14 +29,22 @@ const UserProvider = ({ children }) => {
       await fetchUserInfo();
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn", "true");
+      setLoginError(null); // Clear error on successful login
     } catch (error) {
       console.error("Login error:", error);
+      if (error.response && error.response.status === 400) {
+        // Check for 400
+        setLoginError("Invalid username or password");
+      } else {
+        setLoginError("An error occurred. Please try again later");
+      }
     }
   };
 
   const logout = () => {
     setIsLoggedIn(false);
     setUserInfo(null);
+    localStorage.removeItem("isLoggedIn");
   };
 
   const fetchUserInfo = async () => {
@@ -62,7 +71,15 @@ const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ isLoggedIn, userInfo, login, logout, fetchUserInfo }}
+      value={{
+        isLoggedIn,
+        userInfo,
+        login,
+        logout,
+        fetchUserInfo,
+        setUserInfo,
+        loginError,
+      }}
     >
       {children}
     </UserContext.Provider>

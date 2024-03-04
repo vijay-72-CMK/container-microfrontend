@@ -1,135 +1,116 @@
-import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import React, { useContext, useState } from "react";
+import { Button, Card, Modal, Form } from "react-bootstrap";
+import { UserContext } from "../contexts/UserContext";
+import axios from "axios";
 
-const AddressesMapped = ({ userInfo }) => {
-  const [arrOfAddresses, setArrOfAddresses] = useState(
-    userInfo.addressEntities || []
-  );
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [showAddressForm, setShowAddressForm] = useState(false);
-  const [address, setAddress] = useState({
-    name: "",
-    id: "",
-    address: "",
-    mobileNumber: "",
-    pincode: "",
+const AddressesMapped = () => {
+  const { userInfo, setUserInfo } = useContext(UserContext);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newAddress, setNewAddress] = useState({
+    street: "",
     city: "",
     state: "",
-    country: "",
+    zipCode: "",
   });
 
-  useEffect(() => {
-    // Initialize addresses from userInfo when component mounts
-    setArrOfAddresses(userInfo.addressEntities || []);
-  }, [userInfo.addressEntities]);
-
   const handleInputChange = (event) => {
-    setAddress({ ...address, [event.target.name]: event.target.value });
-  };
-
-  const addAddress = () => {
-    const newAddress = {
-      ...address,
-      id: Date.now().toString(), // Simple ID generation (replace with a more robust solution in production)
-    };
-    setArrOfAddresses([...arrOfAddresses, newAddress]);
-    setAddress({
-      // Reset form after adding
-      name: "",
-      id: "",
-      address: "",
-      mobileNumber: "",
-      pincode: "",
-      city: "",
-      state: "",
-      country: "",
+    setNewAddress({
+      ...newAddress,
+      [event.target.name]: event.target.value,
     });
-    setShowAddressForm(false);
   };
 
-  const deleteAddress = (item) => {
-    setArrOfAddresses(arrOfAddresses.filter((addr) => addr.id !== item.id));
-  };
-
-  const editAddress = (item) => {
-    setAddress(item);
-    setShowAddressForm(true);
-  };
-
-  const updateAddress = () => {
-    setArrOfAddresses(
-      arrOfAddresses.map((addr) => (addr.id === address.id ? address : addr))
-    );
-    setAddress({
-      // Reset form after update
-      name: "",
-      id: "",
-      address: "",
-      mobileNumber: "",
-      pincode: "",
-      city: "",
-      state: "",
-      country: "",
-    });
-    setShowAddressForm(false);
-  };
-
-  return (
-    <>
-      {arrOfAddresses.map((item) => (
-        <div key={item.id} className="addreses-map">
-          {/* ... (Display address details) ... */}
-          <i
-            className="fa-solid fa-pen address-edit address-icon"
-            onClick={() => editAddress(item)}
-          ></i>
-          <i
-            className="fa-solid fa-trash address-delete address-icon"
-            onClick={() => deleteAddress(item)}
-          ></i>
-        </div>
-      ))}
-      <Button
-        // ... (Button styling) ...
-        onClick={() => setShowAddressForm(true)}
-      >
-        {/* ... (Button content) ... */}
-      </Button>
-      {showAddressForm && (
-        <AddressForm
-          address={address}
-          setAddress={setAddress}
-          setShowAddressForm={setShowAddressForm}
-          addAddress={addAddress}
-          updateAddress={updateAddress}
-        />
-      )}
-    </>
-  );
-};
-
-const AddressForm = ({
-  address,
-  setAddress,
-  setShowAddressForm,
-  addAddress,
-  updateAddress,
-}) => {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (address.id) {
-      updateAddress();
-    } else {
-      addAddress();
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/users/addresses",
+        newAddress,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("Address Added Successfully!", response);
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        addressEntities: [...prevUserInfo.addressEntities, newAddress],
+      }));
+      setShowAddForm(false);
+    } catch (error) {
+      console.error("Error adding address:", error);
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      {/* ... (Form fields) ... */}
-      {/* ... (Buttons) ... */}
-    </Form>
+    <div>
+      {userInfo.addressEntities.map((address, index) => (
+        <Card key={index} className="mb-3">
+          <Card.Body>
+            <Card.Title>Address {index + 1}</Card.Title>
+            <p className="address-info">
+              {address.street}, {address.city}, {address.state}{" "}
+              {address.zipCode}
+            </p>
+          </Card.Body>
+        </Card>
+      ))}
+
+      <Button variant="primary" onClick={() => setShowAddForm(true)}>
+        Add Address
+      </Button>
+      <Modal show={showAddForm} onHide={() => setShowAddForm(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Address</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formAddressStreet">
+              <Form.Label>Street</Form.Label>
+              <Form.Control
+                type="text"
+                name="street"
+                value={newAddress.street}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formAddressCity">
+              <Form.Label>City</Form.Label>
+              <Form.Control
+                type="text"
+                name="city"
+                value={newAddress.city}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formAddressState">
+              <Form.Label>State</Form.Label>
+              <Form.Control
+                type="text"
+                name="state"
+                value={newAddress.state}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formAddressZipCode">
+              <Form.Label>Zip Code</Form.Label>
+              <Form.Control
+                type="text"
+                name="zipCode"
+                value={newAddress.zipCode}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" className="mt-3">
+              Save Address
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </div>
   );
 };
 
-export { AddressesMapped, AddressForm };
+export default AddressesMapped;

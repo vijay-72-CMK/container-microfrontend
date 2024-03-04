@@ -9,7 +9,7 @@ import HomePage from "./pages/HomePage";
 import { Suspense } from "react";
 import UserProvider from "./contexts/UserContext";
 import LoginForm from "./pages/Login/LoginForm";
-import Profile from "./components/Profile";
+import Profile from "./pages/Profile/Profile";
 import Test from "./components/test";
 
 const Product = React.lazy(() => import("product_frontend/Brouter"));

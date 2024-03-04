@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import "./Login.css";
 const LoginForm = () => {
-  const { login, isLoggedIn, userInfo } = useContext(UserContext);
+  const { login, isLoggedIn, userInfo, loginError } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +26,7 @@ const LoginForm = () => {
         <Col className="bg-light shadow rounded p-5 form-column">
           <h3 className="text-center mb-4">Login</h3>
           <Form onSubmit={handleSubmit}>
+            {loginError && <div className="error-message">{loginError}</div>}
             <Form.Group className="mb-4" controlId="formBasicUsername">
               <Form.Label className="mb-1">Username</Form.Label>{" "}
               <Form.Control

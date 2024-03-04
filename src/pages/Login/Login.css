@@ -1,3 +1,13 @@
 .login-container {
   min-height: 700px;
 }
+
+.form-column {
+  width: 450px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+}
