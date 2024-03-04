@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import axios from "axios"; // Or any other HTTP client library
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export const UserContext = createContext({
