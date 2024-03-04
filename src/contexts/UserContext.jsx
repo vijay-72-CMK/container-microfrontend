@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const UserContext = createContext({
   isLoggedIn: false,
-  userInfo: null,
+  userInfo: {},
   login: () => {},
   logout: () => {},
 });
@@ -52,10 +52,11 @@ const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log("Inside the use effect of context");
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     if (storedIsLoggedIn) {
-      setIsLoggedIn(true);
       fetchUserInfo();
+      setIsLoggedIn(true);
     }
   }, []);
 
