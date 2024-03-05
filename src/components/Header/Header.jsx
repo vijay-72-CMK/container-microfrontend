@@ -1,11 +1,29 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState, useContext } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { FaShoppingBag, FaUserCircle } from "react-icons/fa";
+import { UserContext } from "../../contexts/UserContext";
+
 const NavBar = () => {
   const [expand, setExpand] = useState(false);
+  const { cartCount, setCartCount } = useContext(UserContext);
 
+  useEffect(() => {
+    const handleItemAdded = (event) => {
+      console.log("Event received: cart-item-added", event.detail);
+      const updatedCount = cartCount + event.detail.quantity;
+      localStorage.setItem("cartCount", updatedCount);
+      console.log(updatedCount);
+      setCartCount(updatedCount);
+    };
+    window.addEventListener("cart-item-added", handleItemAdded);
+    return () => {
+      window.removeEventListener("cart-item-added", handleItemAdded);
+    };
+  }, [cartCount]);
+  console.log("hello, I am nav bar rendering once");
   return (
     <Navbar fixed="top" expand="md" className={"navbar"}>
       <Container className="navbar-container">
@@ -93,11 +111,12 @@ const NavBar = () => {
                   />
                 </svg>
               </Link>
+              {console.log(`Right before link ${cartCount}`)}
               <Link
                 aria-label="Go to Cart Page"
                 to="/cart"
                 className="cart"
-                data-num={0}
+                data-num={cartCount}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

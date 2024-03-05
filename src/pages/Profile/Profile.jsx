@@ -3,7 +3,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { Navigate } from "react-router-dom";
 import { Tabs, Tab, Card, Button, Container, Row, Col } from "react-bootstrap";
 import AddressesMapped from "../../components/AddressMapped";
-import "./Profile.css";
+import "./profile.css";
 
 const Profile = () => {
   const { isLoggedIn, userInfo, logout } = useContext(UserContext);

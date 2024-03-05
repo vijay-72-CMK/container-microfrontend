@@ -46,6 +46,8 @@ module.exports = (_, argv) => ({
       remotes: {
         product_frontend:
           "product_frontend@http://localhost:3000/remoteEntry.js",
+        cart_frontend:
+          "cart_frontend@http://localhost:3002/myCartRemoteEntry.js",
       },
       exposes: {},
       shared: {

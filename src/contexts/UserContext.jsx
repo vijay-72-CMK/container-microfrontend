@@ -13,6 +13,7 @@ const UserProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [loginError, setLoginError] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
 
   const login = async (username, password) => {
     try {
@@ -28,8 +29,9 @@ const UserProvider = ({ children }) => {
       console.log("Logged in I guess");
       await fetchUserInfo();
       setIsLoggedIn(true);
+      fetchCartCount();
       localStorage.setItem("isLoggedIn", "true");
-      setLoginError(null); // Clear error on successful login
+      setLoginError(null);
     } catch (error) {
       console.error("Login error:", error);
       if (error.response && error.response.status === 400) {
@@ -44,7 +46,9 @@ const UserProvider = ({ children }) => {
   const logout = () => {
     setIsLoggedIn(false);
     setUserInfo(null);
+    setCartCount(0);
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("cartCount");
   };
 
   const fetchUserInfo = async () => {
@@ -60,12 +64,40 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const fetchCartCount = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8082/api/cart/view-cart",
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data.cartItems);
+      const initialCount = calculateCartCount(response.data.cartItems);
+      setCartCount(initialCount);
+      localStorage.setItem("cartCount", initialCount);
+    } catch (error) {
+      console.error("Error fetching initial cart count:", error);
+    }
+  };
+
+  const calculateCartCount = (cartItems) => {
+    return cartItems.reduce((total, item) => total + item.quantity, 0);
+  };
+
   useEffect(() => {
     console.log("Inside the use effect of context");
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const storedCartCount = localStorage.getItem("cartCount");
     if (storedIsLoggedIn) {
       fetchUserInfo();
       setIsLoggedIn(true);
+
+      if (storedCartCount) {
+        setCartCount(parseInt(storedCartCount, 10));
+      } else {
+        fetchCartCount();
+      }
     }
   }, []);
 
@@ -79,6 +111,8 @@ const UserProvider = ({ children }) => {
         fetchUserInfo,
         setUserInfo,
         loginError,
+        setCartCount,
+        cartCount,
       }}
     >
       {children}

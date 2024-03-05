@@ -13,6 +13,7 @@ import Profile from "./pages/Profile/Profile";
 import Test from "./components/test";
 
 const Product = React.lazy(() => import("product_frontend/Brouter"));
+const Cart = React.lazy(() => import("cart_frontend/CartRouter"));
 
 const App = () => (
   <Suspense fallback={<div>Loading..</div>}>
@@ -24,6 +25,7 @@ const App = () => (
         <Route path="/login" element={<LoginForm />} />
         <Route path="/myInfo" element={<Profile />} />
         <Route path="/test" element={<Test />} />
+        <Route path="/cart/*" element={<Cart />} />
       </Routes>
       <Footer />
     </UserProvider>
