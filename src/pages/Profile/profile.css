@@ -3,3 +3,18 @@
   padding: 20px;
   border-radius: 8px;
 }
+
+.profile-sidebar {
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+}
+
+.profile-content {
+  padding: 20px;
+}
