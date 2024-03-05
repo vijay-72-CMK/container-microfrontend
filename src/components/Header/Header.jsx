@@ -11,16 +11,16 @@ const NavBar = () => {
   const { cartCount, setCartCount } = useContext(UserContext);
 
   useEffect(() => {
-    const handleItemAdded = (event) => {
-      console.log("Event received: cart-item-added", event.detail);
+    const handleCartChange = (event) => {
+      console.log("Event received: cart-item-changed", event.detail);
       const updatedCount = cartCount + event.detail.quantity;
       localStorage.setItem("cartCount", updatedCount);
       console.log(updatedCount);
       setCartCount(updatedCount);
     };
-    window.addEventListener("cart-item-added", handleItemAdded);
+    window.addEventListener("cart-change", handleCartChange);
     return () => {
-      window.removeEventListener("cart-item-added", handleItemAdded);
+      window.removeEventListener("cart-change", handleCartChange);
     };
   }, [cartCount]);
   console.log("hello, I am nav bar rendering once");
