@@ -207,7 +207,9 @@ const ProductsTab = () => {
 
       if (response.status === 200) {
         toast.success("Product deleted successfully!");
-        fetchProducts(0);
+        setProductsData(
+          productsData.filter((product) => product.id !== productId)
+        );
       } else {
         toast.error("Failed to delete product");
       }
