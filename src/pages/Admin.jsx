@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import ProductsTab from "../components/ProductManage/ProductManage";
 import "./Admin.css";
+import UserManage from "../components/UserManage/UserManage";
+
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("products");
 
@@ -13,9 +15,9 @@ const AdminPage = () => {
         <Tab eventKey="products" title="Products">
           <ProductsTab />
         </Tab>
-        {/* <Tab eventKey="users" title="Users">
-            <UsersTab /> 
-          </Tab> */}
+        <Tab eventKey="users" title="Users">
+          <UserManage />
+        </Tab>
       </Tabs>
     </div>
   );

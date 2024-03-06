@@ -1,0 +1,13 @@
+.image-grid-section {
+  padding: 40px 0; /* Padding top and bottom */
+}
+
+.section-title {
+  margin-bottom: 30px;
+}
+
+.image-item {
+  position: relative; /* For overlay effect */
+  overflow: hidden;
+  margin-bottom: 20px; /* Add spacing between images */
+}

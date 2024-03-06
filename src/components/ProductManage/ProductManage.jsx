@@ -22,7 +22,7 @@ const ProductsTab = () => {
   const [categories, setCategories] = useState([]);
 
   const [totalRows, setTotalRows] = useState(0);
-  const [perPage, setPerPage] = useState(4);
+  const [perPageSize, setPerPageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
   const [editedProduct, setEditedProduct] = useState({
     name: "",
@@ -66,14 +66,15 @@ const ProductsTab = () => {
     }
   };
 
-  const fetchProducts = async (page, size = perPage) => {
+  const fetchProducts = async (page, pageSize) => {
     try {
+      console.log(page, pageSize);
       const response = await axios.get(
         `http://localhost:8081/api/products/search`,
-        { params: { page: page - 1, size } }
+        { params: { page: page - 1, size: pageSize } }
       );
       const data = response.data;
-      console.log(data);
+      console.log(data.totalElements);
       setProductsData(data.content);
       setTotalRows(data.totalElements);
     } catch (error) {
@@ -84,17 +85,17 @@ const ProductsTab = () => {
   };
 
   useEffect(() => {
-    if (selectedProduct) {
-      setEditedProduct({ ...selectedProduct });
-    }
-    fetchProducts(currentPage);
+    // if (selectedProduct) {
+    //   setEditedProduct({ ...selectedProduct });
+    // }
+    fetchProducts(currentPage, perPageSize);
     fetchCategories();
-  }, [perPage, currentPage, selectedProduct]);
+  }, [perPageSize, currentPage]);
 
   const columns = [
-    { name: "ID", selector: (row) => row.id, sortable: true },
     {
       name: "Images",
+      width: "150px",
       cell: (row) => (
         <div style={{ maxWidth: "200px" }}>
           <Carousel variant="dark" interval={null}>
@@ -103,10 +104,12 @@ const ProductsTab = () => {
                 <Image
                   src={imageUrl}
                   style={{
-                    maxWidth: "100%",
-                    height: "auto",
-                    display: "block",
-                    margin: "auto",
+                    // maxWidth: "100%",
+                    // height: "auto",
+                    // display: "block",
+                    // margin: "auto",
+                    borderRadius: "50%",
+                    width: "100px",
                   }}
                 />
               </Carousel.Item>
@@ -121,7 +124,6 @@ const ProductsTab = () => {
         <OverlayTrigger overlay={<Tooltip>{row.name}</Tooltip>} placement="top">
           <div
             style={{
-              maxWidth: "300px",
               overflow: "hidden",
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
@@ -135,45 +137,26 @@ const ProductsTab = () => {
       ),
       sortable: true,
     },
-    { name: "Price", selector: (row) => row.price, sortable: true },
-    { name: "Brand", selector: (row) => row.brand, sortable: true },
     {
-      name: "Available Qty",
+      name: "Price",
+      width: "100px",
+      selector: (row) => row.price,
+      sortable: true,
+    },
+    {
+      name: "Brand",
+      width: "100px",
+      selector: (row) => row.brand,
+      sortable: true,
+    },
+    {
+      name: "Stock",
+      width: "100px",
       selector: (row) => row.availableQuantity,
       sortable: true,
-      width: "150px",
       center: true,
     },
-    { name: "Category", selector: (row) => row.categoryName },
-    { name: "Tags", cell: (row) => row.tags.join(", ") },
-    {
-      name: "Attributes",
-      cell: (row) => (
-        <div>
-          {Object.entries(row.attributes).map(([key, value]) => (
-            <div key={key}>
-              {key}: {value}
-            </div>
-          ))}
-        </div>
-      ),
-      expandableRows: true,
-      width: "150px",
-    },
-    {
-      name: "Description",
-      cell: (row) => (
-        <div style={{ maxHeight: "100px", overflowY: "auto" }}>
-          {row.description}
-        </div>
-      ),
-      width: "250px",
-    },
-    {
-      name: "Avg. Rating",
-      selector: (row) => row.averageRating || "N/A",
-      sortable: true,
-    },
+    { name: "Category", width: "130px", selector: (row) => row.categoryName },
     {
       name: "Actions",
       cell: (row) => (
@@ -185,6 +168,7 @@ const ProductsTab = () => {
             variant="danger"
             size="sm"
             onClick={() => handleDelete(row.id)}
+            className="m-3"
           >
             <MdOutlineDeleteForever />
           </Button>
@@ -224,13 +208,11 @@ const ProductsTab = () => {
   };
 
   const handlePageChange = (page) => {
-    console.log("Hey page changed is called " + page);
-    fetchProducts(page);
+    setCurrentPage(page);
   };
 
-  const handlePerRowsChange = async (newPerPage, page) => {
-    console.log("Hey newPerpage changed is called " + page);
-    setPerPage(newPerPage);
+  const handlePerRowsChange = async (pageSize, page) => {
+    setPerPageSize(pageSize);
   };
 
   const handleImageClick = (product) => {
@@ -291,7 +273,7 @@ const ProductsTab = () => {
   };
   const removeAttribute = (index) => {
     const updatedAttributes = [...attributes];
-    updatedAttributes.splice(index, 1); // Remove the attribute at the given index
+    updatedAttributes.splice(index, 1);
     setAttributes(updatedAttributes);
   };
 
@@ -322,7 +304,6 @@ const ProductsTab = () => {
       >
         Create Product
       </Button>
-
       <DataTable
         columns={columns}
         data={productsData}
@@ -333,6 +314,7 @@ const ProductsTab = () => {
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         paginationRowsPerPageOptions={[4, 8, 12]}
+        paginationPerPage={4}
       />
 
       <Modal

@@ -24,7 +24,7 @@ const Profile = () => {
 
   return (
     <Container fluid className="pt-3 mt-5">
-      <Row className="justify-content-center" style={{ minHeight: "700px" }}>
+      <Row className="justify-content-center" style={{ minHeight: "400px" }}>
         <Col md={3} className="profile-sidebar">
           <Nav
             variant="pills"

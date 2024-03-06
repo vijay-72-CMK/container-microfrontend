@@ -9,3 +9,21 @@
   text-align: center;
   margin-bottom: 20px;
 }
+
+.admin-page {
+  width: 100%;
+  max-width: 1050px;
+}
+
+.admin-page .rdt_TableHeadRow th.rdt_TableCol_Actions {
+  text-align: center; /* Center the header text */
+}
+
+/* Spacing within the Actions cell */
+.admin-page .rdt_TableCol_Actions button {
+  margin-right: 10px; /* Adjust spacing as needed */
+}
+
+.admin-page .rdt_TableCol_Actions button:first-child {
+  margin-right: 0;
+}

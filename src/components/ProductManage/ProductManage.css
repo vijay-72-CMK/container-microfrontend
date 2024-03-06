@@ -37,3 +37,22 @@
 label {
   font-weight: bold;
 }
+
+#attributes-container div {
+  /* Target each key-value container */
+  display: flex; /* Enable flexbox */
+  align-items: center; /* Vertically center items */
+  margin-bottom: 10px;
+}
+
+#attributes-container div > input[type="text"] {
+  /* Target the input fields */
+  flex: 1; /* Allow inputs to grow and fill space */
+  margin-right: 10px; /* Add space between key and value */
+}
+
+.modal-content {
+  max-width: 600px;
+  width: 90%;
+  margin: 0 auto;
+}
