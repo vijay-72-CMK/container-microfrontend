@@ -8,7 +8,12 @@ import { UserContext } from "../../contexts/UserContext";
 
 const NavBar = () => {
   const [expand, setExpand] = useState(false);
-  const { cartCount, setCartCount } = useContext(UserContext);
+  const { cartCount, setCartCount, userInfo } = useContext(UserContext);
+
+  const isAdmin = () => {
+    if (!userInfo || !userInfo.roles) return false;
+    return userInfo.roles.some((role) => role.name === "Admin");
+  };
 
   useEffect(() => {
     const handleCartChange = (event) => {
@@ -74,6 +79,18 @@ const NavBar = () => {
         </div>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-end flex-grow-1 pe-3">
+            {isAdmin() && (
+              <Nav.Item>
+                <Link
+                  aria-label="Go to Admin Area"
+                  className="navbar-link"
+                  to="/admin"
+                  onClick={() => setExpand(false)}
+                >
+                  <span className="nav-link-label">Admin</span>
+                </Link>
+              </Nav.Item>
+            )}
             <Nav.Item>
               <Link
                 aria-label="Go to Home Page"
@@ -84,7 +101,6 @@ const NavBar = () => {
                 <span className="nav-link-label">Home</span>
               </Link>
             </Nav.Item>
-
             <Nav.Item>
               <Link
                 aria-label="Go to Products Page"
@@ -95,7 +111,6 @@ const NavBar = () => {
                 <span className="nav-link-label">Products</span>
               </Link>
             </Nav.Item>
-
             <Nav.Item className="expanded-cart">
               <Link to="/login" aria-label="Go to Login Page">
                 <svg

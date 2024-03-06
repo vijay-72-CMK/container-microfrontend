@@ -11,7 +11,7 @@ import UserProvider from "./contexts/UserContext";
 import LoginForm from "./pages/Login/LoginForm";
 import Profile from "./pages/Profile/Profile";
 import Test from "./components/test";
-
+import AdminPage from "./pages/Admin";
 const Product = React.lazy(() => import("product_frontend/Brouter"));
 const Cart = React.lazy(() => import("cart_frontend/CartRouter"));
 
@@ -26,6 +26,7 @@ const App = () => (
         <Route path="/myInfo" element={<Profile />} />
         <Route path="/test" element={<Test />} />
         <Route path="/cart/*" element={<Cart />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
       <Footer />
     </UserProvider>
