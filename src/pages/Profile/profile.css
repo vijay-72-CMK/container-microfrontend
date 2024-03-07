@@ -7,6 +7,7 @@
 .profile-sidebar {
   padding: 20px;
   border-right: 1px solid #ddd;
+  background-color: white;
 }
 
 .profile-image {
@@ -17,4 +18,15 @@
 
 .profile-content {
   padding: 20px;
+}
+.logout-btn {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Add this container class for vertical centering */
+.info-section-row {
+  display: flex; /* Enable flexbox */
+  align-items: center; /* Center vertically */
 }

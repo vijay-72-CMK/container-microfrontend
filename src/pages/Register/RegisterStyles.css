@@ -1,0 +1,18 @@
+.register-container {
+  /* Updated container name */
+  min-height: 100vh; /* Ensure full viewport height */
+  display: flex;
+  align-items: center; /* Vertical centering */
+  justify-content: center; /* Horizontal centering */
+  padding: 20px 0; /* Add top and bottom padding */
+}
+
+.form-column {
+  width: 450px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+}

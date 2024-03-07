@@ -12,6 +12,8 @@ import LoginForm from "./pages/Login/LoginForm";
 import Profile from "./pages/Profile/Profile";
 import Test from "./components/test";
 import AdminPage from "./pages/Admin";
+import RegisterForm from "./pages/Register/Register";
+import { ErrorBoundary } from "react-error-boundary";
 const Product = React.lazy(() => import("product_frontend/Brouter"));
 const Cart = React.lazy(() => import("cart_frontend/CartRouter"));
 
@@ -23,6 +25,7 @@ const App = () => (
         <Route path="/" element={<HomePage />} />
         <Route path="/products/*" element={<Product />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/signUp" element={<RegisterForm />} />
         <Route path="/myInfo" element={<Profile />} />
         <Route path="/test" element={<Test />} />
         <Route path="/cart/*" element={<Cart />} />

@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const UserContext = createContext({
   isLoggedIn: false,
@@ -12,8 +13,9 @@ export const UserContext = createContext({
 const UserProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
-  const [loginError, setLoginError] = useState(null);
+  const [formError, setFormError] = useState(null);
   const [cartCount, setCartCount] = useState(0);
+  const [userImage, setUserImage] = useState(null);
 
   const login = async (username, password) => {
     try {
@@ -31,14 +33,33 @@ const UserProvider = ({ children }) => {
       setIsLoggedIn(true);
       fetchCartCount();
       localStorage.setItem("isLoggedIn", "true");
-      setLoginError(null);
+      setFormError(null);
     } catch (error) {
       console.error("Login error:", error);
       if (error.response && error.response.status === 400) {
-        // Check for 400
-        setLoginError("Invalid username or password");
+        setFormError("Invalid username or password");
       } else {
-        setLoginError("An error occurred. Please try again later");
+        setFormError("An error occurred. Please try again later");
+      }
+    }
+  };
+
+  const register = async (formData) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/users/register",
+        formData
+      );
+
+      console.log("Registration Response:", response);
+      toast.success("Registered succesfully!");
+      setFormError(null);
+    } catch (error) {
+      console.error("Registration error:", error);
+      if (error.response && error.response.data.detail) {
+        setFormError(error.response.data.detail);
+      } else {
+        setFormError("An error occurred. Please try again later");
       }
     }
   };
@@ -110,9 +131,13 @@ const UserProvider = ({ children }) => {
         logout,
         fetchUserInfo,
         setUserInfo,
-        loginError,
+        loginError: formError,
+        registerError: formError,
         setCartCount,
         cartCount,
+        setUserImage,
+        userImage,
+        register,
       }}
     >
       {children}

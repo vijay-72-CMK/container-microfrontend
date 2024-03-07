@@ -71,6 +71,7 @@ const AddressesMapped = () => {
                 name="street"
                 value={newAddress.street}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
 
@@ -81,6 +82,7 @@ const AddressesMapped = () => {
                 name="city"
                 value={newAddress.city}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
 
@@ -91,6 +93,7 @@ const AddressesMapped = () => {
                 name="state"
                 value={newAddress.state}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
 
@@ -101,6 +104,7 @@ const AddressesMapped = () => {
                 name="zipCode"
                 value={newAddress.zipCode}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
             <Button variant="primary" type="submit" className="mt-3">

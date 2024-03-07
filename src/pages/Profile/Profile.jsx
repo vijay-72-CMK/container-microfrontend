@@ -6,7 +6,8 @@ import AddressesMapped from "../../components/AddressMapped";
 import "./profile.css";
 
 const Profile = () => {
-  const { isLoggedIn, userInfo, logout } = useContext(UserContext);
+  const { isLoggedIn, userInfo, logout, setUserImage, userImage } =
+    useContext(UserContext);
   console.log("yo" + userInfo + isLoggedIn);
   // const [activeKey, setActiveKey] = useState("profile");
   if (!isLoggedIn) {
@@ -21,6 +22,16 @@ const Profile = () => {
   //   </div>
   // );
   const [activeKey, setActiveKey] = useState("info");
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setUserImage(reader.result);
+      };
+    }
+  };
 
   return (
     <Container fluid className="pt-3 mt-5">
@@ -38,35 +49,65 @@ const Profile = () => {
             <Nav.Item>
               <Nav.Link eventKey="addresses">Addresses</Nav.Link>
             </Nav.Item>
-            {/* Add more sections as needed */}
           </Nav>
         </Col>
         <Col md={9} className="profile-content">
           {activeKey === "info" && (
             <Card>
               <Card.Body>
-                <Row>
+                <Row className="info-section-row">
                   <Col sm={4} className="text-center">
-                    <Image
-                      src="https://via.placeholder.com/150"
-                      roundedCircle
-                      className="profile-image"
-                    />{" "}
-                    {/* Placeholder - add your image logic */}
+                    {userImage ? (
+                      <Image
+                        src={userImage}
+                        roundedCircle
+                        className="profile-image"
+                      />
+                    ) : (
+                      <Image
+                        src="https://via.placeholder.com/150"
+                        roundedCircle
+                        className="profile-image"
+                      />
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                    />
                   </Col>
-                  <Col sm={8}>
-                    <h2>Profile Details</h2>
-                    <p>
-                      <strong>Full Name: </strong> {userInfo.firstName}{" "}
-                      {userInfo.lastName}
-                    </p>
-                    <p>
-                      <strong>Email: </strong> {userInfo.email}
-                    </p>
-                    <p>
-                      <strong>Mobile Number:</strong> {userInfo.mobileNumber}{" "}
-                      {/* Assuming you have this in userInfo */}
-                    </p>
+
+                  <Col sm={5}>
+                    <h2>User details</h2>
+                    <div className="profile-info-row">
+                      <div>
+                        <p>
+                          <strong>Full Name: </strong> {userInfo.firstName}{" "}
+                          {userInfo.lastName}
+                        </p>
+                        <p>
+                          <strong>Email: </strong> {userInfo.email}
+                        </p>
+                        <p>
+                          <strong>Mobile Number:</strong>{" "}
+                          {userInfo.mobileNumber}{" "}
+                        </p>
+                      </div>
+                      {/* <button
+                        onClick={() => logout()}
+                        className="btn btn-secondary logout-btn"
+                      >
+                        Logout
+                      </button> */}
+                    </div>
+                  </Col>
+                  <Col sm={2}>
+                    <button
+                      onClick={() => logout()}
+                      className="btn btn-secondary logout-btn"
+                    >
+                      Logout
+                    </button>
                   </Col>
                 </Row>
               </Card.Body>
