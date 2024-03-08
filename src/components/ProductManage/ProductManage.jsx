@@ -289,6 +289,7 @@ const ProductsTab = () => {
       const newAttributes = selectedCategory.requiredAttributes.map((key) => ({
         key,
         value: "",
+        isMandatory: true,
       }));
       setAttributes(newAttributes);
     }
@@ -380,7 +381,7 @@ const ProductsTab = () => {
             <Form.Control
               type="text"
               name="tags"
-              value={editedProduct.tags.join(", ") || ""} // Pre-fill with comma-separated
+              value={editedProduct.tags.join(", ") || ""}
               onChange={handleChange}
             />
           </Form.Group>
@@ -441,7 +442,6 @@ const ProductsTab = () => {
                 required
               />
             </Form.Group>
-
             <Form.Group controlId="formProductBrand">
               <Form.Label>Brand</Form.Label>
               <Form.Control
@@ -452,7 +452,6 @@ const ProductsTab = () => {
                 required
               />
             </Form.Group>
-
             <Form.Group controlId="formProductPrice">
               <Form.Label>Price</Form.Label>
               <Form.Control
@@ -474,7 +473,6 @@ const ProductsTab = () => {
                 required
               />
             </Form.Group>
-
             <Form.Group controlId="formProductQuantity">
               <Form.Label>Available Quantity</Form.Label>
               <Form.Control
@@ -485,7 +483,6 @@ const ProductsTab = () => {
                 required
               />
             </Form.Group>
-
             <Form.Group controlId="formProductImages">
               <Form.Label>Image URLs (One per line)</Form.Label>
               <Form.Control
@@ -496,7 +493,6 @@ const ProductsTab = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-
             <Form.Group controlId="formProductCategory">
               <Form.Label>Category</Form.Label>
               <Form.Select
@@ -512,7 +508,6 @@ const ProductsTab = () => {
                 ))}
               </Form.Select>
             </Form.Group>
-
             <Form.Group controlId="formProductTags">
               <Form.Label>Tags (Comma-separated)</Form.Label>
               <Form.Control
@@ -525,15 +520,21 @@ const ProductsTab = () => {
             </Form.Group>
             <div id="attributes-container">
               <Form.Group controlId="formProductAttributes">
-                <Form.Label>Attributes</Form.Label>
+                <Form.Label className="label-bold">Attributes</Form.Label>
                 {attributes.map((attr, index) => (
-                  <div key={index}>
+                  <div
+                    key={index}
+                    className={`attribute-pair ${
+                      attr.isMandatory ? "mandatory" : ""
+                    }`}
+                  >
                     <Form.Control
                       type="text"
                       name="key"
                       placeholder="Key"
                       value={attr.key}
                       onChange={(event) => handleAttributesChange(index, event)}
+                      disabled={attr.isMandatory}
                     />
                     <Form.Control
                       type="text"
@@ -545,13 +546,22 @@ const ProductsTab = () => {
                     <Button
                       variant="danger"
                       size="sm"
+                      className="remove-button"
                       onClick={() => removeAttribute(index)}
+                      disabled={attr.isMandatory}
                     >
                       Remove
                     </Button>
                   </div>
                 ))}
-                <Button onClick={addAttributeFields}>+ Add Attribute</Button>
+                <Button
+                  onClick={addAttributeFields}
+                  variant="primary"
+                  size="sm"
+                  className="add-button"
+                >
+                  + Add Attribute
+                </Button>
               </Form.Group>
             </div>
             <Modal.Footer>

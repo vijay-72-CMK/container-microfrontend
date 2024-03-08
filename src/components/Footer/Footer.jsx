@@ -24,7 +24,7 @@ const Footer = () => {
               enhance your typing experience.
             </p>
           </Col>
-          <Col md={3} sm={6} className="text-center mb-4">
+          <Col md={2} sm={6} className="text-center mb-4">
             <h2 className="mb-3">Explore</h2>
             <ul className="list-unstyled">
               <li>
@@ -49,7 +49,7 @@ const Footer = () => {
               </li>
             </ul>
           </Col>
-          <Col md={3} sm={6} className="text-center mb-4">
+          <Col md={2} sm={6} className="text-center mb-4">
             <h2 className="mb-3">Follow Us</h2>
             <div className="social-icons">
               <a href="https://www.instagram.com" className="text-white mr-2">
@@ -63,12 +63,12 @@ const Footer = () => {
               </a>
             </div>
           </Col>
-          <Col md={2} sm={6} className="text-center mb-4">
+          <Col md={4} sm={6} className="text-center mb-4">
             <h2 className="mb-3">Contact Us</h2>
             <ul className="list-unstyled">
-              <li>123 Random Street, City</li>
+              <li>286, New No 14, Dr Natesan Road, Ice House, Triplicane</li>
               <li>Email: cmk.help@gmail.com</li>
-              <li>Phone: +1 1123 456 780</li>
+              <li>Phone: +91 9008787878</li>
             </ul>
           </Col>
         </Row>

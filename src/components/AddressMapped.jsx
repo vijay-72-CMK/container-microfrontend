@@ -24,7 +24,7 @@ const AddressesMapped = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/users/addresses",
+        "http://localhost:8080/api/users/addresses  ",
         newAddress,
         {
           withCredentials: true,

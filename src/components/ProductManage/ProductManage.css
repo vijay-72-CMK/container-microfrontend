@@ -25,6 +25,41 @@
   border-top: 1px solid #ddd;
 }
 
+/* #attributes-container {
+  margin-top: 15px;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 15px;
+} */
+
+label {
+  font-weight: bold;
+}
+
+/* #attributes-container div {
+  margin-bottom: 10px;
+}
+
+.attribute-pair {
+  display: flex;
+}
+
+.attribute-pair input[type="text"] {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.remove-button {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.add-button {
+  margin-top: 10px;
+} */
+
 #attributes-container {
   margin-top: 15px;
   max-height: 200px;
@@ -34,21 +69,37 @@
   margin-bottom: 15px;
 }
 
-label {
+.label-bold {
   font-weight: bold;
 }
 
 #attributes-container div {
-  /* Target each key-value container */
-  display: flex; /* Enable flexbox */
-  align-items: center; /* Vertically center items */
   margin-bottom: 10px;
 }
 
-#attributes-container div > input[type="text"] {
-  /* Target the input fields */
-  flex: 1; /* Allow inputs to grow and fill space */
-  margin-right: 10px; /* Add space between key and value */
+.attribute-pair {
+  display: flex;
+}
+
+.attribute-pair input[type="text"] {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.mandatory input[type="text"] {
+  color: red;
+}
+
+.remove-button {
+  margin-top: 10px;
+}
+
+.remove-button:disabled {
+  cursor: not-allowed;
+}
+
+.add-button {
+  margin-top: 10px;
 }
 
 .modal-content {
