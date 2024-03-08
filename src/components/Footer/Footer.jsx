@@ -1,47 +1,72 @@
 import React from "react";
 import "./styles.css";
+import { Link } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
-import { FaShoppingBag } from "react-icons/fa"; // Import the icon
-
+import {
+  FaShoppingBag,
+  FaInstagram,
+  FaTwitter,
+  FaFacebook,
+} from "react-icons/fa";
 const Footer = () => {
   return (
-    <footer>
+    <footer className="bg-black py-4 text-white">
       <Container>
-        <Row className="footer-row">
-          <Col md={3} sm={5} className="box">
-            <div className="logo">
-              <FaShoppingBag color="white" className="navbar-icon" />{" "}
-              <h1>CMK</h1>
+        <Row className="justify-content-center">
+          <Col md={4} sm={6} className="text-center mb-4">
+            <div className="logo d-flex align-items-center justify-content-center mb-3">
+              <FaShoppingBag color="white" className="navbar-icon" />
+              <h1 className="m-0 font-weight-bold">CMK</h1>
             </div>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-              libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat
-              et lectus vel ut sollicitudin elit at amet.
+            <p className="mb-0">
+              Welcome to CMK, your ultimate destination for custom mechanical
+              keyboards. Find the perfect keyboard to match your style and
+              enhance your typing experience.
             </p>
           </Col>
-          <Col md={3} sm={5} className="box">
-            <h2>About Us</h2>
-            <ul>
-              <li>Our Stores</li>
-              <li>Our Cares</li>
-              <li>Terms & Conditions</li>
-              <li>Privacy Policy</li>
+          <Col md={3} sm={6} className="text-center mb-4">
+            <h2 className="mb-3">Explore</h2>
+            <ul className="list-unstyled">
+              <li>
+                <Link to="/" className="text-white">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/products" className="text-white">
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link to="/myInfo" className="text-white">
+                  My Info
+                </Link>
+              </li>
+              <li>
+                <Link to="/cart" className="text-white">
+                  Cart
+                </Link>
+              </li>
             </ul>
           </Col>
-          <Col md={3} sm={5} className="box">
-            <h2>Customer Care</h2>
-            <ul>
-              <li>Help Center </li>
-              <li>How to Buy </li>
-              <li>Track Your Order </li>
-              <li>Corporate & Bulk Purchasing </li>
-              <li>Returns & Refunds </li>
-            </ul>
+          <Col md={3} sm={6} className="text-center mb-4">
+            <h2 className="mb-3">Follow Us</h2>
+            <div className="social-icons">
+              <a href="https://www.instagram.com" className="text-white mr-2">
+                <FaInstagram />
+              </a>
+              <a href="https://twitter.com" className="text-white mr-2">
+                <FaTwitter />
+              </a>
+              <a href="https://www.facebook.com" className="text-white">
+                <FaFacebook />
+              </a>
+            </div>
           </Col>
-          <Col md={3} sm={5} className="box">
-            <h2>Contact Us</h2>
-            <ul>
-              <li>random address</li>
+          <Col md={2} sm={6} className="text-center mb-4">
+            <h2 className="mb-3">Contact Us</h2>
+            <ul className="list-unstyled">
+              <li>123 Random Street, City</li>
               <li>Email: cmk.help@gmail.com</li>
               <li>Phone: +1 1123 456 780</li>
             </ul>
@@ -51,5 +76,4 @@ const Footer = () => {
     </footer>
   );
 };
-
 export default Footer;

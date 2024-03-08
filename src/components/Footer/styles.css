@@ -48,3 +48,7 @@ footer li {
   margin-bottom: 10px;
   opacity: 0.5;
 }
+
+.social-icons a:not(:last-child) {
+  margin-right: 10px;
+}

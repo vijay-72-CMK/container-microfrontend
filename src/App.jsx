@@ -13,7 +13,7 @@ import Profile from "./pages/Profile/Profile";
 import Test from "./components/test";
 import AdminPage from "./pages/Admin";
 import RegisterForm from "./pages/Register/Register";
-import { ErrorBoundary } from "react-error-boundary";
+import NotFoundPage from "./pages/NotFound/NotFound";
 const Product = React.lazy(() => import("product_frontend/Brouter"));
 const Cart = React.lazy(() => import("cart_frontend/CartRouter"));
 
@@ -30,6 +30,7 @@ const App = () => (
         <Route path="/test" element={<Test />} />
         <Route path="/cart/*" element={<Cart />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
     </UserProvider>
