@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header/Header";
 import CarouselPage from "../components/carousel/carousel";
 import { Row, Col, Image, Container } from "react-bootstrap";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const needsAdmin = searchParams.get("needsAdmin");
+
+    if (needsAdmin === "true") {
+      toast.error("You need Admin privileges to access that page");
+      navigate("/", { replace: true });
+    }
+  }, [searchParams]);
+
   return (
     <div>
       <main className="flex-grow-1">
         <CarouselPage />
         <Container className="py-5">
-          {" "}
-          {/* Spacing around section */}
           <Row>
             <Col xs={12} className="text-center section-title mb-4">
               <h2>Get All This and More!</h2>
@@ -40,6 +53,7 @@ const HomePage = () => {
             </Col>
           </Row>
         </Container>
+        <ToastContainer position="bottom-right" autoClose={2000} />
       </main>
     </div>
   );

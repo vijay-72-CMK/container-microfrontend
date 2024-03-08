@@ -10,6 +10,17 @@ export const UserContext = createContext({
   logout: () => {},
 });
 
+function storeRolesInLocalStorage(userInfo) {
+  console.log("Loggin userINFO from context");
+  console.log(userInfo);
+  if (!userInfo || !userInfo.roles) {
+    return;
+  }
+
+  const roleNames = userInfo.roles.map((role) => role.name);
+  localStorage.setItem("userRoles", JSON.stringify(roleNames));
+}
+
 const UserProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
@@ -70,6 +81,7 @@ const UserProvider = ({ children }) => {
     setCartCount(0);
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("cartCount");
+    localStorage.removeItem("userRoles");
   };
 
   const fetchUserInfo = async () => {
@@ -80,6 +92,8 @@ const UserProvider = ({ children }) => {
       );
       console.log("Fetched user data from user context?");
       setUserInfo(response.data);
+      console.log(response.data);
+      storeRolesInLocalStorage(response.data);
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
