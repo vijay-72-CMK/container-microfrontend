@@ -4,9 +4,11 @@ import { MdOutlineDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import ConfirmDeleteModal from "../ConfirmOnDelete/ConfirmDelete";
+
 const UserManage = () => {
   const navigate = useNavigate();
   const [usersData, setUsersData] = useState([]);
@@ -31,7 +33,7 @@ const UserManage = () => {
       toast.success("User deleted successfully!");
       setUsersData(usersData.filter((user) => user.id !== userId));
     } catch (error) {
-      if (error.response.status == 500) {
+      if (!error.response) {
         navigate("/error", { replace: true });
       }
     } finally {
@@ -100,23 +102,13 @@ const UserManage = () => {
     <div>
       <DataTable columns={columns} data={usersData} keyField="id" pagination />
 
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            Cancel
-          </Button>
-          <Button
-            variant="danger"
-            onClick={() => handleConfirmDelete(userIdToDelete)}
-          >
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ConfirmDeleteModal
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        itemType="user"
+        itemId={userIdToDelete}
+        onConfirmDelete={handleConfirmDelete}
+      />
       <ToastContainer position="bottom-right" autoClose={2000} />
     </div>
   );

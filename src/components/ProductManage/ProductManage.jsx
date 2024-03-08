@@ -8,6 +8,7 @@ import "./ProductManage.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MdOutlineDeleteForever } from "react-icons/md";
+import ConfirmDeleteModal from "../ConfirmOnDelete/ConfirmDelete";
 import { FaEdit } from "react-icons/fa";
 
 const ProductsTab = () => {
@@ -20,6 +21,8 @@ const ProductsTab = () => {
   const [loading, setLoading] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
 
   const [totalRows, setTotalRows] = useState(0);
   const [perPageSize, setPerPageSize] = useState(4);
@@ -49,6 +52,11 @@ const ProductsTab = () => {
     tags: [],
     averageRating: 0,
   });
+
+  const handleDeleteClick = (productId) => {
+    setProductIdToDelete(productId);
+    setShowDeleteModal(true);
+  };
 
   const fetchCategories = async () => {
     try {
@@ -164,7 +172,7 @@ const ProductsTab = () => {
           <Button
             variant="danger"
             size="sm"
-            onClick={() => handleDelete(row.id)}
+            onClick={() => handleDeleteClick(row.id)}
             className="m-3"
           >
             <MdOutlineDeleteForever />
@@ -179,7 +187,7 @@ const ProductsTab = () => {
     setShowEditModal(true);
   };
 
-  const handleDelete = async (productId) => {
+  const handleConfirmDelete = async (productId) => {
     try {
       const response = await axios.delete(
         `http://localhost:8081/api/products/remove-product/${productId}`,
@@ -569,6 +577,14 @@ const ProductsTab = () => {
           </Form>
         </Modal.Body>
       </Modal>
+
+      <ConfirmDeleteModal
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        itemType="product"
+        itemId={productIdToDelete}
+        onConfirmDelete={handleConfirmDelete}
+      />
       <ToastContainer />
     </>
   );
