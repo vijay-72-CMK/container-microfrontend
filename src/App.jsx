@@ -14,6 +14,7 @@ import Test from "./components/test";
 import AdminPage from "./pages/Admin";
 import RegisterForm from "./pages/Register/Register";
 import NotFoundPage from "./pages/NotFound/NotFound";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
 const Product = React.lazy(() => import("product_frontend/Brouter"));
 const Cart = React.lazy(() => import("cart_frontend/CartRouter"));
 
@@ -29,7 +30,8 @@ const App = () => (
         <Route path="/myInfo" element={<Profile />} />
         <Route path="/test" element={<Test />} />
         <Route path="/cart/*" element={<Cart />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin" element={<AdminPage />} />{" "}
+        <Route path="/error" element={<ErrorPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />

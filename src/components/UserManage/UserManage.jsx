@@ -6,8 +6,9 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { Button, Modal } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useNavigate } from "react-router-dom";
 const UserManage = () => {
+  const navigate = useNavigate();
   const [usersData, setUsersData] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
@@ -30,8 +31,9 @@ const UserManage = () => {
       toast.success("User deleted successfully!");
       setUsersData(usersData.filter((user) => user.id !== userId));
     } catch (error) {
-      console.error("Error deleting user:", error);
-      toast.error("Failed to delete user");
+      if (error.response.status == 500) {
+        navigate("/error", { replace: true });
+      }
     } finally {
       setShowDeleteModal(false);
       setUserIdToDelete(null);

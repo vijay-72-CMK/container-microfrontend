@@ -97,19 +97,16 @@ const ProductsTab = () => {
       name: "Images",
       width: "150px",
       cell: (row) => (
-        <div style={{ maxWidth: "200px" }}>
+        <div style={{ maxWidth: "100px" }}>
           <Carousel variant="dark" interval={null}>
             {row.images.map((imageUrl, index) => (
               <Carousel.Item key={index} onClick={() => handleImageClick(row)}>
                 <Image
                   src={imageUrl}
                   style={{
-                    // maxWidth: "100%",
-                    // height: "auto",
-                    // display: "block",
-                    // margin: "auto",
                     borderRadius: "50%",
                     width: "100px",
+                    padding: "3px",
                   }}
                 />
               </Carousel.Item>
