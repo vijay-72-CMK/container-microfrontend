@@ -1,9 +1,8 @@
 /* Navbar Section  */
 .navbar {
-  position: relative !important;
-  background-color: black;
+  background-color: var(--secondary);
   transition: all 0.3s ease-out 0s !important;
-  box-shadow: 0px 10px 10px 0px rgba(9, 5, 29, 0.171) !important;
+  /* box-shadow: 0px 10px 10px 0px rgba(9, 5, 29, 0.171) !important; */
   font-size: 1.2rem !important;
 }
 
@@ -27,7 +26,7 @@
 
 .navbar-toggler span {
   display: block !important;
-  background-color: white !important;
+  background-color: var(--primary) !important;
   height: 4px !important;
   width: 27px !important;
   margin-top: 5px !important;
@@ -72,7 +71,17 @@
   opacity: 0.9 !important;
 }
 
+.logoSmall {
+  display: none;
+}
+
 @media (max-width: 767px) {
+  .logoExpanded {
+    display: none;
+  }
+  .logoSmall {
+    display: inline;
+  }
   .navbar {
     font-size: 1.4rem !important;
   }
@@ -90,15 +99,16 @@
 }
 
 .navbar-brand ion-icon {
-  background-color: white;
+  background-color: var(--primary);
   font-size: 25px;
 }
 
 .logo {
   font-size: 25px;
   font-weight: 500;
-  color: white;
+  color: var(--primary);
   margin: 0;
+  margin-left: 0.5em;
 }
 
 .navbar-link {
@@ -112,16 +122,31 @@
 }
 
 .nav-link-label {
-  color: white;
+  color: var(--neutral);
   font-size: 18px !important;
   font-weight: 600;
+  opacity: 0.8;
+  transition: all 100ms ease-in;
+}
+
+.nav-link-label:hover {
+  opacity: 1;
+  color: var(--accent);
+  transform: scale(1.1);
 }
 
 .nav-icon {
   width: 30px;
   height: 30px;
   padding-bottom: 5px;
-  color: white;
+  color: var(--primary);
+  opacity: 0.8;
+  transition: all 250ms ease-in;
+}
+
+.nav-icon:hover {
+  opacity: 1;
+  transform: scale(1.2);
 }
 
 .cart {

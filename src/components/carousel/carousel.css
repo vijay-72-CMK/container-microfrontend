@@ -1,3 +1,15 @@
+.carousalContainer {
+  height: 100%;
+  margin-inline: auto;
+  border-radius: 25px;
+  overflow: hidden;
+  margin-top: 2em;
+  box-shadow: 10px 10px 30px var(--accent);
+  transition: transform 250ms ease-in-out;
+}
+.carousalContainer:hover {
+  transform: scale(1);
+}
 .my-carousel-container {
   position: relative; /* For positioning arrows if needed */
 }
@@ -41,4 +53,9 @@
 .carousel-dots {
   display: flex;
   justify-content: center; /* Centers the dots horizontally */
+}
+
+.vh-75 {
+  height: 75vh;
+  width: 50vw;
 }
