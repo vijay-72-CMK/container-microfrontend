@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { useNavigate, Link } from "react-router-dom";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Image } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
+import CustomButton from "../../components/CustomButtonComponent/CustomButton";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 import * as yup from "yup";
@@ -59,8 +60,11 @@ const LoginForm = () => {
   return (
     <Container className="d-flex align-items-center justify-content-center login-container">
       <Row>
-        <Col className="bg-light shadow rounded p-5 form-column">
-          <h3 className="text-center mb-4">Login</h3>
+        <Col xs={6}>
+          <Image src="login.svg" />
+        </Col>
+        <Col className="rounded p-5 form-column w-50" xs={6}>
+          <h3 className="mb-4">Login</h3>
           <Form onSubmit={handleSubmit}>
             {loginError && <div className="error-message">{loginError}</div>}
             <Form.Group className="mb-4" controlId="formBasicUsername">
@@ -69,7 +73,7 @@ const LoginForm = () => {
                 type="text"
                 name="username"
                 placeholder="Enter username"
-                className="form-input"
+                className="form-input borderBlack"
                 value={formData.username}
                 onChange={handleChange}
                 isInvalid={!!errors.username}
@@ -85,23 +89,23 @@ const LoginForm = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
-                className="form-input"
                 value={formData.password}
                 onChange={handleChange}
                 isInvalid={!!errors.password}
+                className="form-input borderBlack"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.password}
               </Form.Control.Feedback>
             </Form.Group>
 
-            <div className="d-grid gap-2">
-              <Button variant="primary" type="submit">
+            <div className="btnContainer">
+              <CustomButton size="lg" type="submit">
                 Login
-              </Button>
+              </CustomButton>
             </div>
 
-            <div className="mt-4 text-center">
+            <div className="mt-1 bottomLinkContainer">
               <p>
                 <Link to="/signUp">No account? Sign up here</Link>
               </p>

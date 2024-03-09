@@ -3,10 +3,12 @@
   color: var(--accent);
   transition: all 100ms ease-in;
   width: max-content;
+  height: max-content;
   display: flex;
   align-items: center;
   gap: 0.5em;
 }
+
 .btn-flat:hover {
   background-color: var(--primary) !important;
   color: var(--accent);

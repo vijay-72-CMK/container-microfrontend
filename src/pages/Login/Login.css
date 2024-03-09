@@ -11,3 +11,23 @@
   margin-bottom: 10px;
   text-align: center;
 }
+.borderBlack {
+  border: 2px solid var(--accent);
+}
+.btnContainer > button {
+  width: 30%;
+}
+.bottomLinkContainer {
+  opacity: 0.7;
+  transition: all 250ms ease-out;
+}
+.bottomLinkContainer > p > a {
+  text-decoration: none;
+  color: var(--neutral);
+}
+
+.bottomLinkContainer:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  opacity: 1;
+}
