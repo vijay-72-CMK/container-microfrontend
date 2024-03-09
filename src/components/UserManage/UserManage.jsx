@@ -76,6 +76,7 @@ const UserManage = () => {
     { name: "Addresses", selector: (row) => row.addresses, sortable: true },
     { name: "Roles", selector: (row) => row.roles, sortable: true },
     {
+      name: "Actions",
       cell: (row) => (
         <div>
           <Button variant="secondary" size="sm" onClick={() => handleEdit(row)}>
@@ -97,10 +98,38 @@ const UserManage = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
-
+  const rowStyle = {
+    headRow: {
+      style: {
+        color: "var(--accent)",
+        backgroundColor: "var(--secondary)",
+        border: "0",
+        fontWeight: "600",
+      },
+    },
+    rows: {
+      style: {
+        color: "var(--accent)",
+        backgroundColor: "var(--secondary)",
+        border: "0",
+        paddingBlock: "1em",
+      },
+    },
+    pagination: {
+      style: {
+        backgroundColor: "var(--secondary)",
+      },
+    },
+  };
   return (
     <div>
-      <DataTable columns={columns} data={usersData} keyField="id" pagination />
+      <DataTable
+        columns={columns}
+        data={usersData}
+        keyField="id"
+        customStyles={rowStyle}
+        pagination
+      />
 
       <ConfirmDeleteModal
         show={showDeleteModal}

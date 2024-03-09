@@ -17,6 +17,15 @@ body {
   --bs-pagination-active-bg: rgba(246, 174, 36, 0.6) !important;
   --bs-pagination-hover-bg: rgba(246, 174, 36, 0.4) !important;
 }
+.table {
+  --bs-table-bg: var(--secondary) !important;
+}
+.nav {
+  --bs-nav-link-color: var(--accent) !important;
+  --bs-nav-tabs-link-active-color: var(--primary) !important;
+  --bs-nav-tabs-link-active-bg: var(--secondary) !important;
+  --bs-nav-link-hover-color: rgba(67, 61, 51, 0.5) !important;
+}
 
 img {
   max-width: 100%;

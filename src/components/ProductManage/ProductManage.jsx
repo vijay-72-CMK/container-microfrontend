@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import ConfirmDeleteModal from "../ConfirmOnDelete/ConfirmDelete";
 import { FaEdit } from "react-icons/fa";
+import CustomButton from "../CustomButtonComponent/CustomButton";
 
 const ProductsTab = () => {
   const navigate = useNavigate();
@@ -300,29 +301,56 @@ const ProductsTab = () => {
     }
     setNewProduct({ ...newProduct, categoryName: selectedCategoryName });
   };
-
+  const rowStyle = {
+    headRow: {
+      style: {
+        color: "var(--accent)",
+        backgroundColor: "var(--secondary)",
+        border: "0",
+        fontWeight: "600",
+      },
+    },
+    rows: {
+      style: {
+        color: "var(--accent)",
+        backgroundColor: "var(--secondary)",
+        border: "0",
+        paddingBlock: "1em",
+      },
+    },
+    pagination: {
+      style: {
+        backgroundColor: "var(--secondary)",
+      },
+    },
+  };
   return (
     <>
-      <Button
-        variant="primary"
-        onClick={() => setShowCreateModal(true)}
-        style={{ margin: "10px", float: "right" }}
-      >
-        Create Product
-      </Button>
-      <DataTable
-        columns={columns}
-        data={productsData}
-        progressPending={loading}
-        pagination
-        paginationServer
-        paginationTotalRows={totalRows}
-        onChangeRowsPerPage={handlePerRowsChange}
-        onChangePage={handlePageChange}
-        paginationRowsPerPageOptions={[4, 8, 12]}
-        paginationPerPage={4}
-      />
-
+      <div className="tab">
+        <div className="negMargin">
+          <CustomButton
+            size="lg"
+            onClick={() => {
+              setShowCreateModal(true);
+            }}
+          >
+            Create Product
+          </CustomButton>
+        </div>
+        <DataTable
+          columns={columns}
+          data={productsData}
+          progressPending={loading}
+          pagination
+          paginationServer
+          paginationTotalRows={totalRows}
+          onChangeRowsPerPage={handlePerRowsChange}
+          onChangePage={handlePageChange}
+          paginationRowsPerPageOptions={[4, 8, 12]}
+          paginationPerPage={4}
+          customStyles={rowStyle}
+        />
+      </div>
       <Modal
         show={showEditModal}
         onHide={() => setShowEditModal(false)}
@@ -403,9 +431,9 @@ const ProductsTab = () => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleUpdate}>
+          <CustomButton size="lg" onClick={handleUpdate}>
             Update
-          </Button>
+          </CustomButton>
         </Modal.Footer>
       </Modal>
 
@@ -523,56 +551,56 @@ const ProductsTab = () => {
                 required
               />
             </Form.Group>
-            <div id="attributes-container">
-              <Form.Group controlId="formProductAttributes">
-                <Form.Label className="label-bold">Attributes</Form.Label>
-                {attributes.map((attr, index) => (
-                  <div
-                    key={index}
-                    className={`attribute-pair ${
-                      attr.isMandatory ? "mandatory" : ""
-                    }`}
-                  >
-                    <Form.Control
-                      type="text"
-                      name="key"
-                      placeholder="Key"
-                      value={attr.key}
-                      onChange={(event) => handleAttributesChange(index, event)}
-                      disabled={attr.isMandatory}
-                    />
-                    <Form.Control
-                      type="text"
-                      name="value"
-                      placeholder="Value"
-                      value={attr.value}
-                      onChange={(event) => handleAttributesChange(index, event)}
-                    />
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      className="remove-button"
-                      onClick={() => removeAttribute(index)}
-                      disabled={attr.isMandatory}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
-                <Button
-                  onClick={addAttributeFields}
-                  variant="primary"
-                  size="sm"
-                  className="add-button"
+
+            <Form.Group controlId="formProductAttributes">
+              <Form.Label className="label-bold">Attributes</Form.Label>
+              {attributes.map((attr, index) => (
+                <div
+                  key={index}
+                  className={`attribute-pair ${
+                    attr.isMandatory ? "mandatory" : ""
+                  }`}
                 >
-                  + Add Attribute
-                </Button>
-              </Form.Group>
-            </div>
+                  <Form.Control
+                    type="text"
+                    name="key"
+                    placeholder="Key"
+                    value={attr.key}
+                    onChange={(event) => handleAttributesChange(index, event)}
+                    disabled={attr.isMandatory}
+                  />
+                  <Form.Control
+                    type="text"
+                    name="value"
+                    placeholder="Value"
+                    value={attr.value}
+                    onChange={(event) => handleAttributesChange(index, event)}
+                  />
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    className="remove-button"
+                    onClick={() => removeAttribute(index)}
+                    disabled={attr.isMandatory}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+              <CustomButton
+                onClick={addAttributeFields}
+                size="sm"
+                className="add-button"
+                outline={true}
+                type="button"
+              >
+                + Add Attribute
+              </CustomButton>
+            </Form.Group>
             <Modal.Footer>
-              <Button variant="primary" type="submit">
-                Create Product
-              </Button>
+              <CustomButton size="lg" type="submit">
+                Submit
+              </CustomButton>
             </Modal.Footer>
           </Form>
         </Modal.Body>
