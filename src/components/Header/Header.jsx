@@ -119,6 +119,7 @@ const NavBar = () => {
                 className="navbar-link"
                 to="/products"
                 onClick={() => setExpand(false)}
+                state={{ categoryName: "keyboards" }}
               >
                 <span className="nav-link-label">Keyboards</span>
               </Link>
@@ -129,6 +130,7 @@ const NavBar = () => {
                 className="navbar-link"
                 to="/products"
                 onClick={() => setExpand(false)}
+                state={{ categoryName: "keycaps" }}
               >
                 <span className="nav-link-label">Keycaps</span>
               </Link>

@@ -1,27 +1,33 @@
-#attributes-container {
+.productManage #attributes-container {
   max-height: 150px;
   overflow-y: auto;
 }
-.tab {
+
+.productManage .tab {
   position: relative;
 }
-.negMargin {
+
+.productManage .negMargin {
   position: absolute;
   top: -10%;
   right: 0;
   z-index: 2;
 }
+
 .modal-body {
   background-color: var(--secondary);
 }
+
 .form-control {
   border: 1px solid var(--accent);
   background-color: var(--secondary);
 }
+
 .form-select {
   border: 1px solid var(--accent);
   background-color: var(--secondary);
 }
+
 .form-label {
   margin-top: 0.5em;
   margin-bottom: 0;
@@ -49,43 +55,14 @@
   border-top: 1px solid #ddd;
 }
 
-/* #attributes-container {
-  margin-top: 15px;
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 15px;
-} */
-
 label {
   font-weight: bold;
 }
 
-/* #attributes-container div {
-  margin-bottom: 10px;
-}
-
-.attribute-pair {
-  display: flex;
-}
-
-.attribute-pair input[type="text"] {
-  flex: 1;
-  margin-right: 10px;
-}
-
-.remove-button {
-  margin-top: 10px;
-  margin-left: 10px;
-}
-
-.add-button {
-  margin-top: 10px;
-} */
 #formProductAttributes {
   margin-bottom: 0.35em;
 }
+
 #attributes-container {
   margin-top: 15px;
   max-height: 200px;
@@ -113,10 +90,6 @@ label {
 .mandatory input[type="text"] {
   color: var(--accent);
 }
-
-/* .remove-button {
-  margin-top: 10px;
-} */
 
 .remove-button:disabled {
   cursor: not-allowed;

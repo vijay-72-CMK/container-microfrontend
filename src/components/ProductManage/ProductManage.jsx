@@ -325,7 +325,7 @@ const ProductsTab = () => {
     },
   };
   return (
-    <>
+    <div className="productManage">
       <div className="tab">
         <div className="negMargin">
           <CustomButton
@@ -614,7 +614,7 @@ const ProductsTab = () => {
         onConfirmDelete={handleConfirmDelete}
       />
       <ToastContainer />
-    </>
+    </div>
   );
 };
 
