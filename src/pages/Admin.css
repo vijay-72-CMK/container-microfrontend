@@ -1,8 +1,9 @@
 .admin-page {
   padding: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid #e0e0e0;
   border-radius: 5px;
-  margin: 80px auto;
+  margin: 20px auto;
+  font-size: 20px;
 }
 
 .admin-page h1 {

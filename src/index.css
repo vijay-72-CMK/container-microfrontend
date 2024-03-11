@@ -1,6 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Play:wght@400;700&display=swap");
+/*#f6ae24*/
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f5f5f5 !important;
+  font-family: "Play", sans-serif !important;
+  --primary: rgba(246, 174, 36, 1);
+  --secondary: rgba(255, 253, 249, 1);
+  --accent: rgba(8, 21, 30, 1);
+  --neutral: rgb(67, 61, 51);
+  background-color: var(--secondary) !important;
+}
+
+.pagination {
+  --bs-pagination-color: rgba(8, 21, 30, 1) !important;
+  --bs-pagination-hover-color: rgba(8, 21, 30, 1) !important;
+  --bs-pagination-active-color: rgba(8, 21, 30, 1) !important;
+  --bs-pagination-active-border-color: rgba(8, 21, 30, 0.5) !important;
+  --bs-pagination-active-bg: rgba(246, 174, 36, 0.6) !important;
+  --bs-pagination-hover-bg: rgba(246, 174, 36, 0.4) !important;
+}
+.table {
+  --bs-table-bg: var(--secondary) !important;
+}
+.nav {
+  --bs-nav-link-color: var(--accent) !important;
+  --bs-nav-tabs-link-active-color: var(--primary) !important;
+  --bs-nav-tabs-link-active-bg: var(--secondary) !important;
+  --bs-nav-link-hover-color: rgba(67, 61, 51, 0.5) !important;
+}
+
+img {
+  max-width: 100%;
 }
 
 /* .min-vh-100 {

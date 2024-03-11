@@ -1,129 +1,171 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { Navigate } from "react-router-dom";
-import { Container, Row, Col, Nav, Card, Image, Button } from "react-bootstrap";
+import { Modal, Form, Image, Button } from "react-bootstrap";
 import AddressesMapped from "../../components/AddressMapped";
 import "./profile.css";
+import CustomButton from "../../components/CustomButtonComponent/CustomButton";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import * as Yup from "yup";
 
 const Profile = () => {
+  const passwordValidationSchema = Yup.object().shape({
+    oldPassword: Yup.string()
+      .required("Old password is required")
+      .notOneOf(
+        [Yup.ref("newPassword")],
+        "Old and new passwords cannot be the same"
+      ),
+    newPassword: Yup.string()
+      .required("New password is required")
+      .min(8, "Password must be at least 8 characters")
+      .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+      .matches(/[A-Z]/, "Password must contain at least one uppercase letter"),
+  });
+
   const { isLoggedIn, userInfo, logout, setUserImage, userImage } =
     useContext(UserContext);
-  console.log("yo" + userInfo + isLoggedIn);
-  // const [activeKey, setActiveKey] = useState("profile");
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
+  const [showModal, setShowModal] = useState(false);
+  const [changePassword, setChangePassword] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
 
-  // return (
-  //   <div>
-  //     <h2>Welcome, {userInfo.username}</h2>
-  //     {/* Other user info. Example: */}
-  //     <p>Email: {userInfo.email}</p>
-  //   </div>
-  // );
-  const [activeKey, setActiveKey] = useState("info");
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setUserImage(reader.result);
-      };
+  const handleInputChange = (event) => {
+    setChangePassword({
+      ...changePassword,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handlePasswordChange = async (event) => {
+    event.preventDefault();
+    const { oldPassword, newPassword, confirmPassword } = changePassword;
+    if (newPassword !== confirmPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
+    try {
+      await passwordValidationSchema.validate(
+        { oldPassword, newPassword },
+        { abortEarly: false }
+      );
+      const response = await axios.post(
+        "http://localhost:8080/api/users/changePassword",
+        {
+          currentPassword: oldPassword,
+          newPassword,
+          confirmPassword,
+        },
+        { withCredentials: true }
+      );
+      toast.success(response.data.message || "Password changed successfully");
+      setShowModal(false);
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errorMessages = error.inner.reduce((acc, error) => {
+          acc[error.path] = error.message;
+          return acc;
+        }, {});
+        for (const field in errorMessages) {
+          toast.error(errorMessages[field]);
+        }
+      } else {
+        console.log(error);
+        toast.error("Error, old password is not right");
+      }
     }
   };
 
   return (
-    <Container fluid className="pt-3 mt-5">
-      <Row className="justify-content-center" style={{ minHeight: "400px" }}>
-        <Col md={3} className="profile-sidebar">
-          <Nav
-            variant="pills"
-            className="flex-column"
-            activeKey={activeKey}
-            onSelect={(k) => setActiveKey(k)}
-          >
-            <Nav.Item>
-              <Nav.Link eventKey="info">Info</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="addresses">Addresses</Nav.Link>
-            </Nav.Item>
-          </Nav>
-        </Col>
-        <Col md={9} className="profile-content">
-          {activeKey === "info" && (
-            <Card>
-              <Card.Body>
-                <Row className="info-section-row">
-                  <Col sm={4} className="text-center">
-                    {userImage ? (
-                      <Image
-                        src={userImage}
-                        roundedCircle
-                        className="profile-image"
-                      />
-                    ) : (
-                      <Image
-                        src="https://via.placeholder.com/150"
-                        roundedCircle
-                        className="profile-image"
-                      />
-                    )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                    />
-                  </Col>
+    <>
+      <div className="d-flex gap-5 align-items-center w-75 justify-content-between m-auto">
+        <Image src="profile2.svg" className="w-50 illustration" />
+        <div className="">
+          <div>
+            <div className="profile-info-row">
+              <div>
+                <p className="userFields">
+                  <strong>Name: </strong>
+                  {userInfo.firstName} {userInfo.lastName}
+                </p>
+                <p className="userFields">
+                  <strong>Email: </strong> {userInfo.email}
+                </p>
+                <p className="userFields">
+                  <strong>Mobile Number:</strong> {userInfo.mobileNumber}{" "}
+                </p>
+              </div>
+            </div>
+            <div className="d-flex gap-4">
+              <CustomButton
+                size="lg"
+                onClick={() => setShowModal(true)}
+                outline={true}
+              >
+                Reset password
+              </CustomButton>
+              <CustomButton size="lg" onClick={() => logout()}>
+                Logout
+              </CustomButton>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr className="w-75 m-auto" />
+      <div className="d-flex gap-5 align-items-center w-75 justify-content-between m-auto">
+        <AddressesMapped />
+        <Image src="address.svg" className="w-50 illustration" />
+      </div>
 
-                  <Col sm={5}>
-                    <h2>User details</h2>
-                    <div className="profile-info-row">
-                      <div>
-                        <p>
-                          <strong>Full Name: </strong> {userInfo.firstName}{" "}
-                          {userInfo.lastName}
-                        </p>
-                        <p>
-                          <strong>Email: </strong> {userInfo.email}
-                        </p>
-                        <p>
-                          <strong>Mobile Number:</strong>{" "}
-                          {userInfo.mobileNumber}{" "}
-                        </p>
-                      </div>
-                      {/* <button
-                        onClick={() => logout()}
-                        className="btn btn-secondary logout-btn"
-                      >
-                        Logout
-                      </button> */}
-                    </div>
-                  </Col>
-                  <Col sm={2}>
-                    <button
-                      onClick={() => logout()}
-                      className="btn btn-secondary logout-btn"
-                    >
-                      Logout
-                    </button>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          )}
-          {activeKey === "addresses" && (
-            <Card>
-              <Card.Body>
-                <h2>Addresses</h2>
-                <AddressesMapped />
-              </Card.Body>
-            </Card>
-          )}
-        </Col>
-      </Row>
-    </Container>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Change Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handlePasswordChange}>
+            <Form.Group>
+              <Form.Label>Old Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="oldPassword"
+                value={changePassword.oldPassword}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>New Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="newPassword"
+                value={changePassword.newPassword}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Confirm New Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="confirmPassword"
+                value={changePassword.confirmPassword}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Button type="submit">Change Password</Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+      <ToastContainer position="bottom-right" autoClose={2000} />
+    </>
   );
 };
 

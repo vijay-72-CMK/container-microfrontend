@@ -1,6 +1,36 @@
-#attributes-container {
+.productManage #attributes-container {
   max-height: 150px;
   overflow-y: auto;
+}
+
+.productManage .tab {
+  position: relative;
+}
+
+.productManage .negMargin {
+  position: absolute;
+  top: -10%;
+  right: 0;
+  z-index: 2;
+}
+
+.modal-body {
+  background-color: var(--secondary);
+}
+
+.modal .form-control {
+  border: 1px solid var(--accent);
+  background-color: var(--secondary);
+}
+
+.form-select {
+  border: 1px solid var(--accent);
+  background-color: var(--secondary);
+}
+
+.form-label {
+  margin-top: 0.5em;
+  margin-bottom: 0;
 }
 
 #attributes-container div {
@@ -25,48 +55,18 @@
   border-top: 1px solid #ddd;
 }
 
-/* #attributes-container {
-  margin-top: 15px;
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 15px;
-} */
-
 label {
   font-weight: bold;
 }
 
-/* #attributes-container div {
-  margin-bottom: 10px;
+#formProductAttributes {
+  margin-bottom: 0.35em;
 }
-
-.attribute-pair {
-  display: flex;
-}
-
-.attribute-pair input[type="text"] {
-  flex: 1;
-  margin-right: 10px;
-}
-
-.remove-button {
-  margin-top: 10px;
-  margin-left: 10px;
-}
-
-.add-button {
-  margin-top: 10px;
-} */
 
 #attributes-container {
   margin-top: 15px;
   max-height: 200px;
   overflow-y: auto;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 15px;
 }
 
 .label-bold {
@@ -79,6 +79,7 @@ label {
 
 .attribute-pair {
   display: flex;
+  align-items: center;
 }
 
 .attribute-pair input[type="text"] {
@@ -87,11 +88,7 @@ label {
 }
 
 .mandatory input[type="text"] {
-  color: red;
-}
-
-.remove-button {
-  margin-top: 10px;
+  color: var(--accent);
 }
 
 .remove-button:disabled {

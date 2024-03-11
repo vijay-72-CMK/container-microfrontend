@@ -1,3 +1,41 @@
+.homepageContainer {
+  width: 90vw;
+  margin-inline: auto;
+}
+.heroContainer {
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.heroContainer > div {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75em;
+}
+.heroContainer > div > h1 {
+  font-size: 56px;
+}
+.heroContainer > div > h3 {
+  font-size: 28px;
+  font-weight: 400;
+  opacity: 0.8;
+  width: 80%;
+}
+.heroButton {
+  width: 40% !important;
+}
+.heroImage > img {
+  height: 75vh;
+  border-radius: 20px;
+}
+.featuredSection {
+  padding: 0 !important;
+  padding-top: 3em !important;
+}
+
 .image-grid-section {
   padding: 40px 0; /* Padding top and bottom */
 }
@@ -8,6 +46,45 @@
 
 .image-item {
   position: relative; /* For overlay effect */
-  overflow: hidden;
   margin-bottom: 20px; /* Add spacing between images */
+}
+.image-item > img {
+  transition: filter 100ms ease-in-out;
+}
+.image-item:hover img {
+  filter: brightness(0.6) blur(2px);
+}
+
+.imageCategory {
+  z-index: 2;
+  color: var(--secondary);
+  opacity: 0;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  transition: opacity 250ms ease-in;
+}
+
+.image-item:hover .imageCategory {
+  opacity: 1;
+}
+
+.subHeading {
+  font-size: 24px;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.buttonLink {
+  text-decoration: none;
 }

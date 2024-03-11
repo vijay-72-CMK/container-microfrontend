@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button, Card, Modal, Form } from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext";
 import axios from "axios";
+import CustomButton from "./CustomButtonComponent/CustomButton";
 
 const AddressesMapped = () => {
   const { userInfo, setUserInfo } = useContext(UserContext);
@@ -43,21 +44,27 @@ const AddressesMapped = () => {
 
   return (
     <div>
+      {userInfo.addressEntities.length == 0 && (
+        <span className="fw-bold fs-3">
+          No addresses found. Please add one.
+        </span>
+      )}
       {userInfo.addressEntities.map((address, index) => (
-        <Card key={index} className="mb-3">
-          <Card.Body>
-            <Card.Title>Address {index + 1}</Card.Title>
-            <p className="address-info">
-              {address.street}, {address.city}, {address.state}{" "}
-              {address.zipCode}
-            </p>
-          </Card.Body>
-        </Card>
+        <>
+          <h2>Address {index + 1}</h2>
+          <p className="address-info">
+            {address.street}, {address.city}, {address.state} {address.zipCode}
+          </p>
+        </>
       ))}
 
-      <Button variant="primary" onClick={() => setShowAddForm(true)}>
+      <CustomButton
+        size="lg"
+        onClick={() => setShowAddForm(true)}
+        outline={true}
+      >
         Add Address
-      </Button>
+      </CustomButton>
       <Modal show={showAddForm} onHide={() => setShowAddForm(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Add New Address</Modal.Title>
@@ -105,11 +112,12 @@ const AddressesMapped = () => {
                 value={newAddress.zipCode}
                 onChange={handleInputChange}
                 required
+                className="mb-4"
               />
             </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3">
+            <CustomButton size="lg" type="submit" outline={true}>
               Save Address
-            </Button>
+            </CustomButton>
           </Form>
         </Modal.Body>
       </Modal>

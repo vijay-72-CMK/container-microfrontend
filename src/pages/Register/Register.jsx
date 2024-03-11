@@ -1,8 +1,9 @@
 import { useState, useContext } from "react";
 import * as yup from "yup";
 import { Link } from "react-router-dom";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Image } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
+import CustomButton from "../../components/CustomButtonComponent/CustomButton";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -95,13 +96,16 @@ const RegisterForm = () => {
   return (
     <Container className="d-flex align-items-center justify-content-center register-container">
       <Row>
-        <Col className="bg-light shadow rounded p-5 form-column">
-          <h3 className="text-center mb-4">Register</h3>
+        <Col xs={12} lg={6} className="d-flex align-items-center ">
+          <Image src="signUp.svg" />
+        </Col>
+        <Col className="rounded p-5 form-column w-50" xs={12} lg={6}>
+          <h3 className="mb-4">Register</h3>
           <Form onSubmit={handleSubmit}>
             {registerError && (
               <div className="error-message">{registerError}</div>
             )}
-            <Form.Group className="mb-4" controlId="formBasicUsername">
+            <Form.Group className="mb-2" controlId="formBasicUsername">
               <Form.Label className="mb-1">Username</Form.Label>
               <Form.Control
                 type="text"
@@ -110,13 +114,14 @@ const RegisterForm = () => {
                 value={formData.username}
                 onChange={handleChange}
                 isInvalid={!!errors.username}
+                className="borderBlack"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.username}
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-4" controlId="formBasicEmail">
+            <Form.Group className="mb-2" controlId="formBasicEmail">
               <Form.Label className="mb-1">Email</Form.Label>
               <Form.Control
                 type="email"
@@ -125,13 +130,14 @@ const RegisterForm = () => {
                 value={formData.email}
                 onChange={handleChange}
                 isInvalid={!!errors.email}
+                className="borderBlack"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.email}
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-4" controlId="formBasicFirstName">
+            <Form.Group className="mb-2" controlId="formBasicFirstName">
               <Form.Label className="mb-1">First Name</Form.Label>
               <Form.Control
                 type="text"
@@ -140,13 +146,14 @@ const RegisterForm = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 isInvalid={!!errors.firstName}
+                className="borderBlack"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.firstName}
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-4" controlId="formBasicLastName">
+            <Form.Group className="mb-2" controlId="formBasicLastName">
               <Form.Label className="mb-1">Last Name</Form.Label>
               <Form.Control
                 type="text"
@@ -155,13 +162,14 @@ const RegisterForm = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 isInvalid={!!errors.lastName}
+                className="borderBlack"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.lastName}
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-4" controlId="formBasicMobileNumber">
+            <Form.Group className="mb-2" controlId="formBasicMobileNumber">
               <Form.Label className="mb-1">Mobile Number</Form.Label>
               <Form.Control
                 type="text"
@@ -170,6 +178,7 @@ const RegisterForm = () => {
                 value={formData.mobileNumber}
                 onChange={handleChange}
                 isInvalid={!!errors.mobileNumber}
+                className="borderBlack"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.mobileNumber}
@@ -185,19 +194,20 @@ const RegisterForm = () => {
                 value={formData.password}
                 onChange={handleChange}
                 isInvalid={!!errors.password}
+                className="borderBlack"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.password}
               </Form.Control.Feedback>
             </Form.Group>
 
-            <div className="d-grid gap-2">
-              <Button variant="primary" type="submit">
+            <div className="btnContainer">
+              <CustomButton size="lg" type="submit">
                 Register
-              </Button>
+              </CustomButton>
             </div>
 
-            <div className="mt-4 text-center">
+            <div className="mt-1 bottomLinkContainer">
               <p>
                 Already have an account? <Link to="/login">Login here</Link>
               </p>
