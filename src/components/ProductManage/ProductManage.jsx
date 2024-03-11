@@ -189,6 +189,7 @@ const ProductsTab = () => {
   };
 
   const handleConfirmDelete = async (productId) => {
+    setShowDeleteModal(false);
     try {
       const response = await axios.delete(
         `http://localhost:8081/api/products/remove-product/${productId}`,
@@ -613,7 +614,7 @@ const ProductsTab = () => {
         itemId={productIdToDelete}
         onConfirmDelete={handleConfirmDelete}
       />
-      <ToastContainer />
+      <ToastContainer position="bottom-right" autoClose={2000} />
     </div>
   );
 };

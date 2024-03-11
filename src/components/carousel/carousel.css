@@ -7,11 +7,14 @@
   box-shadow: 10px 10px 30px var(--accent);
   transition: transform 250ms ease-in-out;
 }
+img {
+  object-fit: cover;
+}
 .carousalContainer:hover {
   transform: scale(1);
 }
 .my-carousel-container {
-  position: relative; /* For positioning arrows if needed */
+  position: relative;
 }
 
 .carousel-control {

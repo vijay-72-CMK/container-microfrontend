@@ -141,6 +141,7 @@ const NavBar = () => {
                 className="navbar-link"
                 to="/products"
                 onClick={() => setExpand(false)}
+                state={{ categoryName: "switches" }}
               >
                 <span className="nav-link-label">Switches</span>
               </Link>
@@ -160,7 +161,6 @@ const NavBar = () => {
                   />
                 </svg>
               </Link>
-              {console.log(`Right before link ${cartCount}`)}
               <Link
                 aria-label="Go to Cart Page"
                 to="/cart"

@@ -37,7 +37,7 @@ const HomePage = () => {
               aria-label="Go to Products Page"
               to="/products"
             >
-              <CustomButton className="heroButton" size="xxl">
+              <CustomButton className="heroButton" size="lg">
                 <span>Start Shopping</span>
                 <RightArrowIcon />
               </CustomButton>
@@ -61,7 +61,7 @@ const HomePage = () => {
                 aria-label="Go to Products Page"
                 to="/products"
               >
-                <CustomButton size="xxl">View All Products</CustomButton>
+                <CustomButton size="lg">View All Products</CustomButton>
               </Link>
             </Col>
           </Row>

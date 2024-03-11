@@ -18,7 +18,7 @@
   background-color: var(--secondary);
 }
 
-.form-control {
+.modal .form-control {
   border: 1px solid var(--accent);
   background-color: var(--secondary);
 }
