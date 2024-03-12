@@ -16,7 +16,12 @@ const ProductsTab = () => {
   const navigate = useNavigate();
 
   const [productsData, setProductsData] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState({
+    name: "",
+    price: 0,
+    availableQuantity: 0,
+    description: "",
+  });
   const [showEditModal, setShowEditModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -30,15 +35,9 @@ const ProductsTab = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [editedProduct, setEditedProduct] = useState({
     name: "",
-    brand: "",
     price: 0,
     availableQuantity: 0,
-    categoryName: "",
-    tags: [],
     description: "",
-    attributes: {},
-    images: [],
-    averageRating: 0,
   });
 
   const [newProduct, setNewProduct] = useState({
@@ -94,9 +93,6 @@ const ProductsTab = () => {
   };
 
   useEffect(() => {
-    // if (selectedProduct) {
-    //   setEditedProduct({ ...selectedProduct });
-    // }
     fetchProducts(currentPage, perPageSize);
     fetchCategories();
   }, [perPageSize, currentPage]);
@@ -256,12 +252,58 @@ const ProductsTab = () => {
     }
   };
 
+  const handleEditProduct = async (event) => {
+    event.preventDefault();
+    const id = selectedProduct.id;
+    try {
+      const response = await axios.patch(
+        `http://localhost:8081/api/products/edit-product/${id}`,
+        {
+          name: selectedProduct.name,
+          price: selectedProduct.price,
+          availableQuantity: selectedProduct.availableQuantity,
+          description: selectedProduct.description,
+        },
+        { withCredentials: true }
+      );
+      const updatedProducts = productsData.map((product) => {
+        if (product.id === selectedProduct.id) {
+          return {
+            ...product,
+            name: selectedProduct.name,
+            price: selectedProduct.price,
+            availableQuantity: selectedProduct.availableQuantity,
+            description: selectedProduct.description,
+          };
+        } else {
+          return product;
+        }
+      });
+      setProductsData(updatedProducts);
+      toast.success("Updated successfully!");
+      setShowEditModal(false);
+    } catch (error) {
+      if (error.response) {
+        const errorData = error.response.data;
+        toast.error("Update failed: " + errorData.message);
+      } else {
+        toast.error("Update failed: Check your connection");
+        console.error("Error submitting update:", error);
+      }
+    }
+  };
+
   const handleChange = (event) => {
     let value = event.target.value;
     if (event.target.name === "tags" || event.target.name == "images") {
       value = value.split(/[\n,]+/).map((tag) => tag.trim());
     }
     setNewProduct({ ...newProduct, [event.target.name]: value });
+  };
+
+  const handleEditChange = (event) => {
+    let value = event.target.value;
+    setSelectedProduct({ ...selectedProduct, [event.target.name]: value });
   };
 
   const [attributes, setAttributes] = useState([{ key: "", value: "" }]);
@@ -361,98 +403,55 @@ const ProductsTab = () => {
           <Modal.Title>Edit Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group controlId="formProductName">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={editedProduct.name || ""}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="formProductBrand">
-            <Form.Label>Brand</Form.Label>
-            <Form.Control
-              type="text"
-              name="brand"
-              value={editedProduct.brand || ""}
-              onChange={handleChange}
-            />
-          </Form.Group>
+          <Form onSubmit={handleEditProduct}>
+            <Form.Group controlId="formProductName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={selectedProduct.name}
+                onChange={handleEditChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formProductPrice">
+              <Form.Label>Price</Form.Label>
+              <Form.Control
+                type="number"
+                name="price"
+                value={selectedProduct.price}
+                onChange={handleEditChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formProductQuantity">
+              <Form.Label>Available Quantity</Form.Label>
+              <Form.Control
+                type="number"
+                name="availableQuantity"
+                value={selectedProduct.availableQuantity}
+                onChange={handleEditChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formProductDescription">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="description"
+                value={selectedProduct.description}
+                onChange={handleEditChange}
+                required
+              />
+            </Form.Group>
 
-          <Form.Group controlId="formProductPrice">
-            <Form.Label>Price</Form.Label>
-            <Form.Control
-              type="number"
-              name="price"
-              value={editedProduct.price || ""}
-              onChange={handleChange}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formProductQuantity">
-            <Form.Label>Available Quantity</Form.Label>
-            <Form.Control
-              type="number"
-              name="availableQuantity"
-              value={editedProduct.availableQuantity || ""}
-              onChange={handleChange}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formProductCategory">
-            <Form.Label>Category</Form.Label>
-            <Form.Control
-              type="text"
-              name="categoryName"
-              value={editedProduct.categoryName || ""}
-              onChange={handleChange}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formProductTags">
-            <Form.Label>Tags</Form.Label>
-            <Form.Control
-              type="text"
-              name="tags"
-              value={editedProduct.tags.join(", ") || ""}
-              onChange={handleChange}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formProductDescription">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              name="description"
-              value={editedProduct.description || ""}
-              onChange={handleChange}
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <CustomButton size="lg" onClick={handleUpdate}>
-            Update
-          </CustomButton>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal
-        show={showImageModal}
-        onHide={() => setShowImageModal(false)}
-        size="lg"
-      >
-        <Modal.Body>
-          {selectedProduct && (
-            <Carousel variant="dark" interval={null}>
-              {selectedProduct.images.map((imageUrl, index) => (
-                <Carousel.Item key={index}>
-                  <Image src={imageUrl} fluid />
-                </Carousel.Item>
-              ))}
-            </Carousel>
-          )}
+            <Modal.Footer>
+              <CustomButton size="lg" type="button" onClick={handleEditProduct}>
+                Update
+              </CustomButton>
+            </Modal.Footer>
+          </Form>
         </Modal.Body>
       </Modal>
 
@@ -614,7 +613,6 @@ const ProductsTab = () => {
         itemId={productIdToDelete}
         onConfirmDelete={handleConfirmDelete}
       />
-      <ToastContainer position="bottom-right" autoClose={2000} />
     </div>
   );
 };

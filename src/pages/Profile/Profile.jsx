@@ -22,7 +22,12 @@ const Profile = () => {
       .required("New password is required")
       .min(8, "Password must be at least 8 characters")
       .matches(/[a-z]/, "Password must contain at least one lowercase letter")
-      .matches(/[A-Z]/, "Password must contain at least one uppercase letter"),
+      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .matches(/[0-9]/, "Password must contain at least one number")
+      .matches(
+        /[^A-Za-z0-9]/,
+        "Password must contain at least one special character"
+      ),
   });
 
   const { isLoggedIn, userInfo, logout, setUserImage, userImage } =
@@ -158,9 +163,12 @@ const Profile = () => {
                 value={changePassword.confirmPassword}
                 onChange={handleInputChange}
                 required
+                className="mb-4"
               />
             </Form.Group>
-            <Button type="submit">Change Password</Button>
+            <CustomButton size="lg" type="submit" outline={true}>
+              Submit
+            </CustomButton>
           </Form>
         </Modal.Body>
       </Modal>

@@ -15,6 +15,8 @@ import AdminPage from "./pages/Admin";
 import RegisterForm from "./pages/Register/Register";
 import NotFoundPage from "./pages/NotFound/NotFound";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const Product = React.lazy(() =>
   import("product_frontend/Brouter").catch(() => {
@@ -57,6 +59,7 @@ const App = () => (
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
     <Footer />
+    <ToastContainer position="bottom-right" autoClose={2000} />
   </UserProvider>
 );
 ReactDOM.render(
