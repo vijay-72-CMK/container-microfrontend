@@ -4,16 +4,21 @@ import { MdOutlineDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import ConfirmDeleteModal from "../ConfirmOnDelete/ConfirmDelete";
-
+import Select from "react-select";
+import CustomButton from "../CustomButtonComponent/CustomButton";
 const UserManage = () => {
   const navigate = useNavigate();
   const [usersData, setUsersData] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedRoles, setSelectedRoles] = useState([]);
+  const [rolesOptions, setRolesOptions] = useState([]);
 
   const handleDeleteClick = (userId) => {
     setUserIdToDelete(userId);
@@ -64,8 +69,74 @@ const UserManage = () => {
       addresses: user.addressEntities
         .map((address) => `${address.street}, ${address.city}`)
         .join(", "),
-      roles: user.roles.map((role) => role.name).join(", "),
+      roles: user.roles,
     }));
+  };
+
+  const handleRoleChange = (selectedOptions) => {
+    setSelectedRoles(selectedOptions);
+  };
+
+  const handleEdit = (row) => {
+    setSelectedUser(row);
+    setSelectedRoles(
+      row.roles.map((role) => ({ value: role.id, label: role.name }))
+    );
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setSelectedUser(null);
+  };
+
+  const fetchRoles = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/users/roles",
+        { withCredentials: true }
+      );
+      setRolesOptions(
+        response.data.map((role) => ({ value: role.id, label: role.name }))
+      );
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const userId = selectedUser.id;
+      const roles = selectedRoles.map((option) => ({
+        id: option.value,
+        name: option.label,
+      }));
+
+      const response = await axios.patch(
+        `http://localhost:8080/api/users/edit-roles/${userId}`,
+        roles,
+        { withCredentials: true }
+      );
+      toast.success("Roles updated successfully!");
+      const updatedUsersData = usersData.map((user) => {
+        if (user.id === selectedUser.id) {
+          return {
+            ...user,
+            roles: selectedRoles.map((option) => ({
+              id: option.value,
+              name: option.label,
+            })),
+          };
+        } else {
+          return user;
+        }
+      });
+      setUsersData(updatedUsersData);
+      handleClose();
+    } catch (error) {
+      console.error("Error updating roles:", error);
+      toast.error("Failed to update roles. Please try again.");
+    }
   };
 
   const columns = [
@@ -74,7 +145,11 @@ const UserManage = () => {
     { name: "Mobile Number", selector: (row) => row.mobile, sortable: true },
     { name: "Name", selector: (row) => row.name, sortable: true },
     { name: "Addresses", selector: (row) => row.addresses, sortable: true },
-    { name: "Roles", selector: (row) => row.roles, sortable: true },
+    {
+      name: "Roles",
+      selector: (row) => row.roles.map((role) => role.name).join(", "),
+      sortable: true,
+    },
     {
       name: "Actions",
       cell: (row) => (
@@ -97,6 +172,7 @@ const UserManage = () => {
 
   useEffect(() => {
     fetchUsers();
+    fetchRoles();
   }, []);
   const rowStyle = {
     headRow: {
@@ -138,7 +214,26 @@ const UserManage = () => {
         itemId={userIdToDelete}
         onConfirmDelete={handleConfirmDelete}
       />
-      <ToastContainer position="bottom-right" autoClose={2000} />
+
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Roles</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Select
+            defaultValue={selectedRoles}
+            options={rolesOptions}
+            isMulti
+            closeMenuOnSelect={false}
+            onChange={handleRoleChange}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <CustomButton size="lg" type="submit" onClick={handleSubmit}>
+            Submit
+          </CustomButton>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
