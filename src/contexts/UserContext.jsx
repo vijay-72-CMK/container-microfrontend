@@ -22,7 +22,7 @@ function storeRolesInLocalStorage(userInfo) {
 }
 
 const UserProvider = ({ children }) => {
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [formError, setFormError] = useState(null);
@@ -52,7 +52,7 @@ const UserProvider = ({ children }) => {
         setFormError("Invalid username or password");
       } else {
         setFormError("An error occurred. Please try again later");
-        naviagte("/error", { replace: true });
+        navigate("/error", { replace: true });
       }
     }
   };
@@ -73,7 +73,7 @@ const UserProvider = ({ children }) => {
         setFormError(error.response.data.detail);
       } else {
         setFormError("An error occurred. Please try again later");
-        naviagte("/error", { replace: true });
+        navigate("/error", { replace: true });
       }
     }
   };
@@ -99,7 +99,9 @@ const UserProvider = ({ children }) => {
       storeRolesInLocalStorage(response.data);
     } catch (error) {
       console.error("Error fetching user info:", error);
-      naviagte("/error", { replace: true });
+      if (!error.response || error.response.status == 500) {
+        navigate("/error", { replace: true });
+      }
     }
   };
 

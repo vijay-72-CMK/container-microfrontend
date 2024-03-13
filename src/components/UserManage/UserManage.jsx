@@ -57,6 +57,9 @@ const UserManage = () => {
     } catch (error) {
       console.error("Error fetching users:", error);
       toast.error("Failed to fetch users");
+      if (!error.response || error.response.status == 500) {
+        navigate("/error", { replace: true });
+      }
     }
   };
 
@@ -101,6 +104,9 @@ const UserManage = () => {
       );
     } catch (error) {
       console.error("Error fetching roles:", error);
+      if (!error.response || error.response.status == 500) {
+        navigate("/error", { replace: true });
+      }
     }
   };
 

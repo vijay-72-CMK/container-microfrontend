@@ -30,8 +30,7 @@ const Profile = () => {
       ),
   });
 
-  const { isLoggedIn, userInfo, logout, setUserImage, userImage } =
-    useContext(UserContext);
+  const { isLoggedIn, userInfo, logout } = useContext(UserContext);
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }

@@ -21,6 +21,7 @@ const ProductsTab = () => {
     price: 0,
     availableQuantity: 0,
     description: "",
+    images: [],
   });
   const [showEditModal, setShowEditModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -71,6 +72,9 @@ const ProductsTab = () => {
       setCategories(updatedCategories);
     } catch (error) {
       console.error("Error fetching categories:", error);
+      if (!error.response || error.response.status == 500) {
+        navigate("/error", { replace: true });
+      }
     }
   };
 
@@ -87,6 +91,9 @@ const ProductsTab = () => {
       setTotalRows(data.totalElements);
     } catch (error) {
       console.error("Error fetching products:", error);
+      if (!error.response || error.response.status == 500) {
+        navigate("/error", { replace: true });
+      }
     } finally {
       setLoading(false);
     }
@@ -138,6 +145,8 @@ const ProductsTab = () => {
         </OverlayTrigger>
       ),
       sortable: true,
+      sortFunction: (rowA, rowB) =>
+        rowA.name.toLowerCase().localeCompare(rowB.name.toLowerCase()),
     },
     {
       name: "Price",
@@ -541,6 +550,16 @@ const ProductsTab = () => {
                 ))}
               </Form.Select>
             </Form.Group>
+            <Form.Group controlId="formProductBrand">
+              <Form.Label>Rating</Form.Label>
+              <Form.Control
+                type="text"
+                name="averageRating"
+                value={newProduct.averageRating}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
             <Form.Group controlId="formProductTags">
               <Form.Label>Tags (Comma-separated)</Form.Label>
               <Form.Control
@@ -568,6 +587,7 @@ const ProductsTab = () => {
                     value={attr.key}
                     onChange={(event) => handleAttributesChange(index, event)}
                     disabled={attr.isMandatory}
+                    required
                   />
                   <Form.Control
                     type="text"
@@ -575,6 +595,7 @@ const ProductsTab = () => {
                     placeholder="Value"
                     value={attr.value}
                     onChange={(event) => handleAttributesChange(index, event)}
+                    required
                   />
                   <Button
                     variant="danger"
@@ -606,6 +627,23 @@ const ProductsTab = () => {
         </Modal.Body>
       </Modal>
 
+      <Modal
+        show={showImageModal}
+        onHide={() => setShowImageModal(false)}
+        size="lg"
+      >
+        <Modal.Body>
+          {selectedProduct && (
+            <Carousel variant="dark" interval={null}>
+              {selectedProduct.images.map((imageUrl, index) => (
+                <Carousel.Item key={index}>
+                  <Image src={imageUrl} fluid />
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          )}
+        </Modal.Body>
+      </Modal>
       <ConfirmDeleteModal
         show={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}

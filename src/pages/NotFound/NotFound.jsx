@@ -4,10 +4,10 @@ import { Container, Row, Col, Image } from "react-bootstrap";
 
 const NotFoundPage = () => {
   return (
-    <Container className="d-flex align-items-center min-vh-70">
+    <Container className="d-flex align-items-center min-vh-70 mb-5">
       <Row className="justify-content-center w-100">
         <Col xs={12} sm={6} md={4} className="text-center">
-          <Image src="404.svg" alt="404 Image" fluid />
+          <Image src="404_2.svg" alt="404 Image" fluid />
           <p>Page not found</p>
           <p>
             Go back to <Link to="/">homepage</Link>

@@ -4,6 +4,8 @@ import ProductsTab from "../components/ProductManage/ProductManage";
 import "./Admin.css";
 import UserManage from "../components/UserManage/UserManage";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -19,18 +21,21 @@ const AdminPage = () => {
   }, []);
 
   return (
-    <div className="admin-page">
-      <h1>Admin Dashboard</h1>
+    <>
+      <div className="admin-page">
+        <h1>Admin Dashboard</h1>
 
-      <Tabs activeKey={activeTab} onSelect={(key) => setActiveTab(key)}>
-        <Tab eventKey="products" title="Products">
-          <ProductsTab />
-        </Tab>
-        <Tab eventKey="users" title="Users">
-          <UserManage />
-        </Tab>
-      </Tabs>
-    </div>
+        <Tabs activeKey={activeTab} onSelect={(key) => setActiveTab(key)}>
+          <Tab eventKey="products" title="Products">
+            <ProductsTab />
+          </Tab>
+          <Tab eventKey="users" title="Users">
+            <UserManage />
+          </Tab>
+        </Tabs>
+      </div>
+      <ToastContainer position="bottom-right" autoClose={2000} />
+    </>
   );
 };
 
